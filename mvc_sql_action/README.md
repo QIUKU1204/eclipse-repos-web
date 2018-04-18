@@ -1,7 +1,7 @@
 # mvc_sql_action
 
 
-### web应用功能:
+### 功能
  - login及login check
  - 测试解决中文乱码问题，使网页能正常显示中文
  - 对MySQL数据库的query和delete功能
@@ -20,6 +20,4 @@
 
  - 2018-4-16:上传学习笔记;
 
-
-### 目标
 
