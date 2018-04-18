@@ -1,0 +1,528 @@
+deploy                部署
+undeploy            取消部署
+reload                重载
+load                   加载
+Middleware        中间件
+enclosing           封装的
+out-of-the-box    拆箱
+wrapper class    包装类
+context             上下文
+data source       数据源 -- 数据库应用程序所使用的数据库或者数据库服务器;通过提供正确的数据源名称，你可以找到相应的数据库连接;
+web                   一种...的分布式图形信息系统
+
+
+框架(代码重用)、架构(部分重用)、设计模式(设计重用)
+三种级别的重用: 内部重用 -> 代码重用 -> 框架重用
+*设计模式:MVC,MTV,MVP,CBD,ORM...
+*框架:QT(C++)、MFC(C++)、SSH(Java)、SSM(Java)、django(Python)
+
+                 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+             【字符编码和中文乱码问题】
+1.在JSP页面上输入中文，请求页面不出现乱码:保证contentType="text/html; charset=UTF-8",pageEncoding="UTF-8" 
+  charset和pageEncoding的字符编码类型一致，且都支持中文即【UTF-8】;
+
+2.获取中文参数值:  默认请求参数在传输过程中使用的编码为ISO-8859-1;
+  
+  >对于POST请求:只要在获取请求参数(request.getParameter())之前，调用request.setCharacterEncoding("UTF-8")方法即可;
+
+  >对于GET请求: 修改Tomcat服务器的server.xml文件配置 -- 为Connector节点添加useBodyEncodingForURI="true";
+                              但同样需要调用request.setCharacterEncoding("UTF-8")方法;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              
+          【Issues and Resolve】
+
+0:新建动态web项目(Dynamic Web Project)时选择动态web模块版本2.5与3.0的区别;
+  ①2.5和3.0是指servlet的版本，是2.5的还是3.0的;
+  ②web.xml文件头信息<web-app></web-app>包含版本(2.5)若与项目实际版本(3.0)不同,
+   将可能导致java文件编译失败,引发ClassNotFoundException;
+
+1.在【用户环境配置文件/etc/profile】中添加CLASSPATH等环境变量，否则编译时无法找到各种package；
+  如error: package javax.servlet does not exist
+
+2.出现error: package javax.servlet does not exist情况的三种解决方法：
+  ①修改~/.bashrc文件的CLASSPATH变量，添加servlet-api.jar的绝对路径；
+  ②修改/etc/profile文件，做法如上；
+  ③将servlet-api.jar拷贝到/jdk/jre/lib文件夹下；
+
+
+3.Servlet的两种配置(web.xml和annotation)同时只能存在一种，否则在启动Tomcat时，会因为存在两个url-pattern而报错:
+  The servlets named [ListAllStudentsServlet] and [com.qiuku.javaweb.mvc.ListAllStudentsServlet] 
+  are both mapped to the url-pattern [/listAllStudents] which is not permitted.
+
+
+4.
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            【Servlet(上)】
+
+1.ServletConfig对象： 对应当前WEB应用特定的Servlet;(局部)
+  ①getInitParameter(String name):获取指定参数名(name)的初始化参数值(value);
+  ②getInitParameterNames():获取参数名组成的Enumeration对象.
+  ③
+
+2.ServletContext对象：对应当前WEB应用所有的Servlet;(全局)
+  可以由ServletConfig对象获取，该对象代表当前WEB应用
+  ①getInitParameter(String name)：获取指定参数名(name)的初始化参数值(value);
+  ②getInitParameterNames()：获取参数名组成的Enumeration对象.
+  ③getRealPath(String Path)：获取当前WEB应用的某一文件在服务器上的绝对路径，而不是部署前的路径；
+  ④getContextPath()：获取当前WEB应用的名称；
+  ⑤getResourceAsStream(String Path)：获取当前WEB应用的某一文件对应的输入流；
+
+3.ServletContext设置初始化参数：可以为WEB应用的所有Servlet所获取，
+                               而Servlet的初始化参数只由那个Servlet获取；
+
+
+4.ServletRequest、HttpServletRequest接口(子接口)：HttpServletRequest比ServletRequest多了一些针对于Http协议的方法。例如：
+                                                 getHeader()，getMethod()，getSession() 
+  ①封装了请求信息，可以从中获取到任何的请求信息；
+  ②String getParameter(String name):根据请求参数的名字，返回参数值；
+  ③String[] getParameterValues(String name):根据请求参数的名字，返回请求参数对应的字符串数组；
+  ④Enumeration getParameterNames():返回参数名对应的Enumeration对象，类似于之前的getInitParameterNames()方法；
+  ⑤Map getParameterMap():返回请求参数的键值对：key-参数名，value-参数值；String数组类型；
+  
+
+5.ServletResponse、HttpServletResponse接口(子接口)：
+  ①封装了响应信息，如果想给用户什么响应，调用该接口的方法即可实现；
+  ②*getWriter():返回PrintWriter对象，调用该对象的print()方法，可以将print()中的参数打印到浏览器上；
+  ③设置响应的内容类型:response.setContentType("application/msword"); -- 请求后,浏览器会下载一个word文档,内容为print()的参数;
+  ④void sendRedirect(String location):请求的重定向;(此方法为HttpServletResponse接口中定义的.)
+  ⑤
+
+**************************************************************************************************
+ public void service(ServletRequest request, ServletResponse response)                 
+           throws ServletException, IOException{                                                            
+                                                                                                                     
+ }                                                                          
+                                                                           
+以上两个(四个)接口的实现类都是服务器给予实现的，并在服务器调用service()方法时传入
+***************************************************************************************************
+
+
+6.GET请求和POST请求：
+  ①GET请求使用于在浏览器输入URL或单击网页上的一个超链接时；
+  ②GET方式传送的数据量一般在1KB以下；
+  ③POST请求主要用于向WEB服务器提交FORM表单中的数据；
+  ④POST方式将表单字段元素及其数据作为HTTP消息的实体内容发送给WEB服务器；
+  ⑤POST方式传送的数据量比使用GET方式要大得多；
+
+7.在servlet的配置当中，<load-on-startup>5</load-on-startup>的含义是：
+  ①当值为0或者大于0时，表示容器在WEB应用启动时就加载这个servlet；
+  ②当是一个负数时或者没有指定时，则指示容器在该servlet被选择时才加载；
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+             【Servlet(下)】
+
+1.抽象Servlet类GenericServlet:
+   ①是一个Servlet,是Servlet接口和ServletConfig接口的实现类。
+   ②是一个抽象类，其中的service()方法为抽象方法。
+   ③新建的Servlet程序直接继承GenericServlet会使开发更简洁。
+   public abstract class GenericServlet 
+   extends Object
+   implements Servlet,ServletConfig,Serializable
+
+
+2.*HttpServlet:是一个Servlet，继承自GenericServlet。
+   ①针对HTTP协议所定义的一个Servlet基类;
+   ②在service()方法中直接把ServletRequest和ServletResponse转为HttpServletRequest和HttpServletResponse,
+    并调用了重载的service(HttpServletRequest,HttpServletResponse);
+   ③在service(HttpServletRequest,HttpServletResponse)中获取请求方式:request.getMethod()。
+    根据请求方式又创建了doGet()和doPost()方法;
+   ④在实际开发中，直接继承HttpServlet，根据请求方式复写doGet()或doPost()方法即可;
+   ⑤优点:...
+
+
+3.Servlet的annotation(注解)配置和web.xml配置：
+  ①Annotation(注解)配置：直接在Servlet源文件中添加@WebServlet("/listAllStudents")语句即可;
+  ②web.xml配置：
+    <!-- ListAllStudentsServlet -->
+    <servlet>
+        <servlet-name>ListAllStudentsServlet</servlet-name>
+        <servlet-class>com.qiuku.javaweb.mvc.ListAllStudentsServlet</servlet-class> 
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListAllStudentsServlet</servlet-name>
+        <url-pattern>/listAllStudents</url-pattern>
+    </servlet-mapping>
+  ③这两种配置同时只能存在一种，否则在启动Tomcat时，会因为存在两个url-pattern而报错:
+     The servlets named [ListAllStudentsServlet] and [com.qiuku.javaweb.mvc.ListAllStudentsServlet] 
+     are both mapped to the url-pattern [/listAllStudents] which is not permitted.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+     【JSP概述】 Java Server Page:Java服务器端网页 -- 在HTML页面中编写Java代码的页面
+
+0:JSP是简化Servlet编写的一种技术，它将【Java代码和HTML语句混合】在同一个文件中编写，
+    只对网页中要动态产生的内容采用Java代码来编写，静态内容则采用普通HTML语句编写；
+
+1:可以直接使用Servlet程序输出HTML页面，但是很繁琐很臃肿;
+   StringBuilder result
+   result.append("<html>")
+         .append("<head>")
+         .append("</head>")
+         .append("</html>");
+   out.print(result.toString());
+
+2:JSP文件可以放置在WEB应用程序中的除了WEB-INF外的任何目录中;
+
+3:JSP的运行原理:JSP本质上是一个Servlet。
+  每个JSP页面第一次被访问时，【JSP引擎】将它翻译成一个Servlet源程序(.java)，接着将这个Servlet程序编译成class类文件，
+  最后再由【WEB容器(Servlet引擎)】加载和执行这个由JSP页面翻译成的Servlet程序。
+
+*4.【JSP(页面)的构成】和JSP语法：JSP指令+脚本元素+动作元素；
+×①静态HTML内容；
+* ②JSP指令:  封装在<%@ 指令 属性名="值" %>中，最常用的有page指令和include指令;
+* ③JSP表达式:封装在<%= %>中，可以将一个Java变量或表达式的计算结果输出到客户端浏览器上;
+* ④JSP脚本:  封装在<% %>中 (*不需显示或没有输出的Java语句)
+×⑤JSP声明:  将Java代码封装在<%! %>中，它里面的代码将被插入到[JSP对应Servlet]的_jspService方法的外面;(几乎从来不用)
+  ⑥JSP动作/标签:
+* ⑦JSP注释:  <%-- JSP代码 --%>  作用:可以阻止Java代码的执行;
+    HTML注释: <!-- HTML注释 -->  作用:提供说明性内容，不可以阻止Java代码的执行;
+
+
+*5.JSP页面的9个内置(隐含)对象:【没有声明就能使用的对象】;
+ *①request对象  -- HttpServletRequest类的实例对象;
+
+×②response对象 -- HttpServletResponse类的实例对象;(在JSP页面中几乎不会调用response对象的任何方法)
+
+ *③out对象 -- JspWriter类的实例对象:调用out.println()方法可以直接把字符串打印到浏览器上;
+
+ *④session(会话)对象 -- HttpSession类的实例：代表浏览器和服务器的一次会话。
+                            主要用于保存每个用户的信息，跟踪每个客户的操作状态;
+                         
+ *⑤application对象 -- ServletContext类的实例:代表当前WEB应用，其信息被一个WEB容器中的所有用户(JSP)所共享;
+
+×⑥config对象 -- 当前JSP对应的Servlet的ServletConfig对象:保存了当前JSP对应的Servlet的初始化参数等信息。
+                                            但若需访问这些初始化参数，必须通过映射的地址;
+
+  ⑦exception(异常)对象:只有在声明了page指令的isErrorPage="true"时，才可以使用; -- <%@ page isErrorPage="true"%>
+                     ps:首先创建一个能够引发错误的JSP页面errorCause.jsp,并指定其错误处理页面为errorProcess.jsp;
+
+ *⑧pageContext对象:页面的上下文，是PageContext类的实例。可以从该对象获取到其他8个对象。也可以从中获取当前页面信息;
+
+×⑨page对象 -- Object基类的实例对象:指向当前JSP对应Servlet对象的引用，只能调用Object类的方法;
+
+ps:使用顺序:pageContext，request，session，application(对属性的作用域范围从小到大);
+
+
+
+6.Cookie: 
+   ①response.addCookie(cookie):用于将封装好的Cookie对象传送到客户端浏览器；
+   ②request.getCookie():用于读取保存到客户端浏览器的Cookie；
+
+
+7.JSP模板元素--JSP页面中的静态HTML内容:定义了JSP页面的基本骨架，即定义了页面的结构和外观。
+
+
+10.jsp页面中System.out.println()和out.println()的区别:
+   ①out.println()将输出打印在网页上；
+   ②System.out.println()将输出打印在控制台上；
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      【和属性相关的方法】
+
+                                  attrName    attrValue
+1.void serAttribute(String name ,Object o): 为对象设置属性;
+
+2.Object getAttribute(String name): 根据属性名，获取指定的属性;
+
+3.Enumeration getAttributeNames(): 获取所有属性的名字组成的Enumeration对象;
+
+4.removeAttribute(String name):根据属性名，移除指定的属性;
+
+5.pageContext,request,session,application对象都有这些方法.这四个对象也称之为【域对象】;
+
+6.四个【域对象】的作用域范围:
+* ①pageContext: 属性的作用范围仅限于【当前JSP页面】及其对应Servlet程序;
+
+* ②request:     属性的作用范围仅限于【同一个请求】;(*在有转发的情况下可以跨页面获取属性值)
+
+* ③session:     属性的作用范围限于【一次会话】 -- 浏览器打开直到关闭称为一次会话;
+
+* ④application: 属性的作用范围限于【当前WEB应用】。只要在一次设置属性，则在该WEB应用的其他JSP或Servlet中都可以获取这个属性;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        【请求转发和请求重定向】
+
+1.RequestDispatcher接口:请求转发器接口
+
+
+2.使用forward方法实现请求转发:
+* request.getRequestDispatcher("/"+path).forward(request,response);
+
+
+3.使用sendRedirect方法实现请求重定向:
+* response.sendRedirect(path);
+
+
+4.两者的运行流程
+ ①请求的转发:请求从浏览器发出后，直接在中转页面转发到最终页面，无需返回浏览器;
+ ②请求重定向:请求从浏览器发出后，需要从中转页面返回到浏览器，再由浏览器发二次请求到最终页面;
+
+
+5.两者的本质区别:请求转发只发出了一次请求，而请求重定向则发出了两次请求;
+ *①forward()向服务器发了一个请求 -- 所以地址栏是初次请求的地址;
+    sendRedirect()向服务器发了两个请求 -- 所以地址栏不再是初次请求的地址,而是最后响应的地址;
+
+ *②请求的转发:最终Servlet中的request与中转Servlet的request是同一个对象;
+    请求重定向:最终Servlet中的request与中转Servlet的request不是同一个对象;
+
+  ③请求的转发:只能转发给当前WEB应用的资源;
+    请求重定向:可以重定向到任何资源;
+
+  ④请求的转发: / 代表的是当前WEB应用(如http://localhost:8080/webapp)的根目录;
+    请求重定向: / 代表的是当前WEB站点(如http://localhost:8080)的根目录;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        【JSP指令: page & include】
+
+0.JSP指令简介:JSP指令是为【JSP引擎】而设计的，它们并不直接产生任何可见输出，只是【告诉引擎如何处理JSP页面中的其余部分】;
+  JSP2.0中定义了page、include和taglib这三种指令，每种指令又定义了一些各自的属性(properties);
+
+<%@page %>
+1.page指令: 格式为<%@page 属性名="值" %>，如<%@ page contentType="text/html;charset=gb2312" %> ;
+  ①page指令用于定义JSP页面的各种属性，它的作用范围是整个JSP页面，一般放置于JSP页面的起始位置;
+  ②属性名是大小敏感的;
+* ③常用属性:
+  > language="java"
+  > extends="package.class"
+  > import="java.xxx.xxx"      指定当前JSP页面对应的Servlet程序需要导入的类;
+  > session="true | false"     指定当前JSP页面的【session隐含对象】是否可用;
+  > errorPage="relative_url"   指定当前JSP页面出现错误时的实际响应页面是什么.其中 / 表示的是当前WEB应用的根目录;
+  > isErrorPage="true | false" 指定当前JSP页面是否为错误处理页面，并指定当前页面是否可以使用【exception隐含对象】;
+  > contentType="text/html; charset=UTF-8" 指定当前【JSP页面的响应类型】(text/html)和返回页面的字符编码类型(UTF-8);
+  > contentType="application/msword; charset=UTF-8"  实际调用的是response.setContentType("text/html;charset=UTF-8");
+  > pageEncoding="characterSet | UTF-8"    指定当前JSP页面的字符编码.通常情况下和contentType的一致;
+  > isELIgnored="true | false" 指定当前JSP是否可以使用【EL表达式】.通常取值为true;
+
+2.errorPage和isErrorPage:
+  ①errorPage 指定当前JSP页面出现错误时的实际响应页面是什么.其中 / 表示的是当前WEB应用的根目录;
+  ②<%@ page errorPage="/error.jsp" %> -- 在响应error.jsp时，JSP引擎使用的是请求转发的方式;
+  ③isErrorPage 指定当前JSP页面是否为错误处理页面，并指定当前页面是否可以使用【exception隐含对象】;
+    一般情况下，不建议能够直接访问该错误处理页面;
+  ④如何使客户不能直接访问某一个页面呢？对于Tomcat服务器而言，WEB-INF下的文件是不能直接在浏览器中输入地址来访问的，
+    但通过请求的转发是可以的！
+  ⑤还可以在web.xml文件中配置错误页面: 错误页面.PNG ;
+
+<%@include %>
+3.include指令: <%@include file="relative_url" %>
+  ①【静态引入】:当前JSP页面与静态引入的页面紧密结合为一个Servlet;
+  ②引入文件和被引入文件在被JSP引擎翻译成Servlet的过程中进行合并，而不是先合并源文件后再对合并结果进行翻译;
+  ③file属性的设置值必须使用相对路径; / 表示当前WEB应用的根目录，而不是WEB站点根目录;
+  
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+         【JSP标签/动作】
+
+1.Action元素(动作元素)可以完成各种【通用的JSP页面功能】，也可以实现一些【处理复杂业务逻辑的专业功能】;
+
+2.Action元素采用XML语法格式，即每个Action元素在JSP页面中都以XML标签的形式出现;
+
+3.标准格式:<jsp:include />、<jsp:forward />等;
+
+4.<jsp:include>标签:
+  ①用于把另外一个资源的输出内容插入到当前JSP页面的输出内容之中;
+  ②这种在JSP页面执行时的引入方式称之为【动态引入】;
+
+5.<jsp:include page="url" />标签和<%@ include file="url" %>指令的区别:
+  ①标签为动态引入，生成两个Servlet源文件;
+  ②指令为静态引入，只生成一个Servlet源文件;
+  ③被动态引入的资源必须是一个能被WEB容器独立调用和执行的资源;
+  ④include指令只能引入遵循JSP格式的文件，被引入文件和当前JSP文件共同被转译为一个Servlet源文件;
+
+6.<jsp:forward>标签:
+
+  ①<jsp:forward page="/b.jsp"></jsp:forward>
+ 
+    相当于
+  
+  ②request.getRequestDispatcher("/b.jsp").forward(request,response);
+
+  ③区别:<jsp:forward>标签可以使用<jsp:param>子标签传入一些参数.当然<jsp:include>标签也是可以的;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+       【MVC设计模式】
+
+0.MVC设计模型将应用程序分为三个核心模块(模型、视图、控制器)，它们各自处理自己的任务；
+
+1.JavaEE组件通过配置(业务逻辑)组装成web应用；
+
+2.模型M(业务模型)：业务逻辑+业务数据.
+  ①一个模型能为多个视图提供数据;
+  ②模型代码可以被多个视图重用;
+  ③每一个业务都会去操作单独的数据库的数据表，整个放在一起，算一个业务操作;
+
+
+3.视图V(JSP页面)：用户看到并与之交互的界面.
+  ①视图接受用户的输入；
+  ②视图向用户显示相关的数据；
+  ③不进行任何实际的业务操作；
+
+
+4.控制器C(前端控制器)：
+  ①控制器接受用户的输入并调用模型和视图去完成用户的需求；
+  ②控制器接收请求并决定调用哪个【模型组件】去处理请求，然后决定调用哪个视图显示模型处理返回的数据；
+
+
+5.总结：
+  ①M：Model .      Dao基类;
+  ②V： View .        JSP，在JSP页面上编写Java代码实现显示;
+  ③C： Controller. Servlet:
+      > 接收请求request
+      > 获取请求request参数
+      > 调用DAO的方法
+      > 把DAO方法的返回值放入request中
+      > 转发(或重定向)页面
+  ④当目标响应页面不需要从request中读取任何值时，则可以使用重定向。（如此还可以防止表单的重复提交）
+
+
+6.Servlet的annotation(注解)配置和web.xml配置：
+  ①Annotation(注解)配置：直接在Servlet源文件中添加@WebServlet("/listAllStudents")语句即可;
+  ②web.xml配置：
+    <!-- ListAllStudentsServlet -->
+    <servlet>
+        <servlet-name>ListAllStudentsServlet</servlet-name>
+        <servlet-class>com.qiuku.javaweb.mvc.ListAllStudentsServlet</servlet-class> 
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListAllStudentsServlet</servlet-name>
+        <url-pattern>/listAllStudents</url-pattern>
+    </servlet-mapping>
+  ③这两种配置同时只能存在一种，否则在启动Tomcat时，会因为存在两个url-pattern而报错:
+    The servlets named [ListAllStudentsServlet] and [com.qiuku.javaweb.mvc.ListAllStudentsServlet] 
+    are both mapped to the url-pattern [/listAllStudents] which is not permitted.
+    
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+       【MVC设计案例】
+       
+1.DAO工具类和CustomerDAO接口
+
+2.CustomerDAO接口的实现类
+
+3.业务方法：数据库里有的方法. ！= DAO里写的方法.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+       【Servlet注解技术】
+
+@WebServlet          取代servlet配置
+@WebFilter            取代filter配置
+@WebInitParam     取代初始化参数配置（servlet、filter）
+@WebListener        取代listener配置
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+       【JavaBean】
+
+1.JavaBean是一个Java类，最简单的JavaBean是一个只包含属性及其get/set方法的类；
+
+2.JavaBean的作用：能够自动封装JSP页面提交时所包含的全部表单参数信息，
+                 可以方便JSP页面之间的参数传递和业务封装；
+
+
+3.在JSP中使用JavaBean:
+   ①创建JavaBean实例对象:
+   ②使用该实例对象封装【前一页面】提交的表单参数:
+   ③读取JavaBean实例中的属性值:
+
+4.JavaBean的四个属性:
+   ①Simple属性:一个Simple属性表示一个伴随有一对set/get方法的变量；
+   ②Index属性:一个Index属性表示一个数组值。使用对应的set/get方法可获取数组中的数值；
+   ③Bound属性:当该种属性的值发生改变时，要通知其他的对象；
+   ④Constrained属性:当这个属性的值要发生改变时，与这个属性级联的其他Java对象可否决属性值的改变；
+
+5.企业级JavaBean(EJB)
+   EJB是一个服务器端组件模型，最大的用处是部署分布式应用程序，用EJB技术部署的分布式系统可以跨平台；
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      【MySQL -- 一种流行的关系数据库】
+
+1.MySQL免安装版的配置方法:
+   ①添加环境变量MYSQL_HOME,变量值为F:\mysql-5.7.21-winx64；
+   ②修改环境变量PATH，添加新值F:\mysql-5.7.21-winx64\bin；
+   ③在安装目录下新建配置文件my.ini；
+   ④将MySQL安装为Windows服务:mysqld install MySQL --defaults-file="%MYSQL_HOME%\my.ini" ;
+   ⑤创建data文件夹和默认的数据库:mysqld --initialize-insecure --user=mysql ;
+   ⑥启动MySQL服务:net start mysql ;
+
+2.MySQL-Front:MySQL客户端工具
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      【JDBC(Java数据库连接)】
+
+1.JDBC是Java程序中与数据库通信的应用；
+   JDBC是一种用于执行SQL语句的Java API,可以为多种关系数据库提供统一访问；
+   JDBC是一组用Java语言编写的类和接口；
+
+2.JDBC的驱动程序:有四种模式，选择哪一种取决于程序的应用范围。
+   ①模式1(JDBC-ODBC驱动):JDBC-ODBC桥接器。提供了经由ODBC驱动进行访问的JDBC接口。实验用途或没有其他JDBC驱动可用；
+   ②模式2(网络库):类似于JDBC-ODBC桥接器，需要load到客户机，是一个部分用Java实现的驱动接口；
+                 它将【JDBC调用】转换为对【数据库客户端接口】的调用；
+   ③模式3(纯Java驱动程序):由数据库厂商实现的基于本地协议的驱动，直接调用DBMS使用的网络协议。适用于企业内网；
+   ④模式4(通过中间件服务器):纯Java驱动。将JDBC调用转换为中间网络协议，中间网络协议层起到一个读取数据库的
+                          中间件的作用，能连接多种类型的数据库。适用于企业内网；
+
+
+*3.JDBC的主要对象:
+   ①连接对象(Connection):Connection对象代表与数据库的连接。连接过程包括执行的SQL语句和返回的结果；
+   ②声明对象(Statement):JDBC提供了三个类(Statement、PrepareStatement、CallableStatement)，用于向数据库发送SQL语句并执行。
+                                    如果声明对象执行的是Select语句，则将返回一个结果集(ResultSet)对象；
+   ③结果集对象(ResultSet):ResultSet是一个存储查询结果的对象，同时具有操纵数据的功能；
+  
+
+*4.JDBC的工作步骤:
+   ①register、load一个driver;(在连接数据库之前，首先要将该数据库的驱动程序加载到JVM)
+   ②创建数据库连接；
+   ③创建三个类(Statement、PrepareStatement、CallableStatement)的语句对象，发送SQL语句，并执行SQL语句；
+   ④处理SQL结果集ResultSet;
+   ⑤关闭Statement;
+   ⑥关闭连接Connection;
+
+
+*5.语句对象(Statement的实例)：通过【语句对象】执行SQL语句，语句对象有以下三种；
+   ①Statement对象：执行简单的、无参数的SQL的语句；
+   ②PrepareStatement对象：预编译语句对象；
+   ③CallableStatement对象：用来执行存储过程；
+
+
+6.数据库连接池:服务器提供的一个拥有很多物理连接的缓冲池。
+               减少了连接、断开连接和重新连接数据库的开销；
+   通过设定连接池最大连接数防止系统无尽的与数据库连接；
+   通过连接池管理机制监视数据库的连接的数量、使用情况；
+
+
+7.元数据:
+   ①元数据用于描述数据库或数据库一部分的数据，是关于数据的数据；
+   ②元数据被用于动态地调节数据库的内容和结果集，因此元数据分为数据库元数据和结果集元数据两类；
+   ③数据库元数据DatabaseMetaData:从数据库连接对象中获取，提供关于特定数据库的信息；
+   ④结果集元数据ResultSetMetaData:从结果集ResultSet中获取，提供关于该结果集的相关信息；
+
+   
+8.jar包和war包: web所有包都是用jar打的，只是目标文件的扩展名不一样。
+   ①war是一个WEB模块，其中包含了WEB-INF，因此是可以直接运行的WEB模块；
+   ②jar一般只是包括一些class文件，若声明了Main_class则可以用java命令运行；
+   ③将war包放置在Tomcat的\webapps目录下。启动Tomcat后，这个war包会自动解压成web应用文件夹，相当于发布；
+   总结:
+   ④war包:做好一个web应用(如网站)后，打成包部署到web容器(如Tomcat)中；
+   ⑤jar包:通常是开发时要引用各种通用类(class)，打成包便于使用和管理；
+   ⑥ear包:企业级应用，通常是EJB打成ear包；
+
+
+9.Ubuntu下实时监控Tomcat日志:
+   ①先切换到Tomcat的日志目录logs/；
+   ②键入tail -f catalina.out即可实时查看运行日志；
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
