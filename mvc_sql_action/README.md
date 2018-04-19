@@ -9,6 +9,7 @@
 
 ### 部署
 
+[MySQL查询与删除](http://47.106.11.169:8080/mvc_sql_action/mvc_started_page.jsp)
  
 ### 更新
 
