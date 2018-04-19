@@ -2,9 +2,9 @@
 
 
 
-### [mvc_sql_action][1]
+### 
 
 
-  [1]: https://github.com/QIUKU1204/eclipse_repos_web/blob/master/mvc_sql_action/
+ [mvc_sql_action](http://47.106.11.169:8080/mvc_sql_action/mvc_started_page.jsp)
 
 
