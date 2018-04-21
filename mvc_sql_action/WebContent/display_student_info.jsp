@@ -31,17 +31,17 @@
             for(Student student:students){
         %>
         
-                <tr>
-                    <td><%= student.getFlowId() %></td>
-                    <td><%= student.getType() %></td>
-                    <td><%= student.getIdCard() %></td>
-                    <td><%= student.getExamCard() %></td>
-                    <td><%= student.getStudentName() %></td>
-                    <td><%= student.getLocation() %></td>
-                    <td><%= student.getGrade() %></td>
-                    <!-- request使用get方式传参数 -->
-                    <td><a href="deleteStudent?flowId=<%=student.getFlowId()%>">Delete</a></td>
-                </tr>
+        <tr>
+                <td><%= student.getFlowId() %></td>
+                <td><%= student.getType() %></td>
+                <td><%= student.getIdCard() %></td>
+                <td><%= student.getExamCard() %></td>
+                <td><%= student.getStudentName() %></td>
+                <td><%= student.getLocation() %></td>
+                <td><%= student.getGrade() %></td>
+                <!-- request使用get方式传参数 -->
+                <td><a href="deleteStudent?flowId=<%=student.getFlowId()%>">Delete</a></td>
+        </tr>
         
         <%
             }
