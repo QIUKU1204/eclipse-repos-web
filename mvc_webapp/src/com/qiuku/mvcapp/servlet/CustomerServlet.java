@@ -43,6 +43,7 @@ public class CustomerServlet extends HttpServlet {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// 1.获取ServletPath: /edit.do 或 /delete.do
 		request.setCharacterEncoding("UTF-8");
 		String servletPath = request.getServletPath();

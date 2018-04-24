@@ -19,6 +19,8 @@
 </head>
 <body>
 
+    <% request.setCharacterEncoding("UTF-8"); %>
+    
     <%=request.getAttribute("message")==null? "":request.getAttribute("message")%>
     <form action ="query.do" method="post">
 		<table>
