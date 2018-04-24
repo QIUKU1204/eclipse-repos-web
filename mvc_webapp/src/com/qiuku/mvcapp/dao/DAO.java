@@ -13,7 +13,7 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
  * @TODO:封装了基本的CRUD方法，供子类继承使用
- * 当前DAO直接在方法中获取数据库连接
+ * 当前DAO直接在其方法中获取数据库连接
  * @param <T>: 当前DAO处理的实体类的类型
  * @author:QIUKU
  */
@@ -82,7 +82,7 @@ public class DAO<T> {
 	
 	
 	/**
-	 * @TODO: 返回T所对应的一个实例类的对象
+	 * @TODO: 返回T所对应的一个实例对象
 	 * @param sql
 	 * @param args
 	 */
@@ -119,10 +119,6 @@ public class DAO<T> {
 		}
 		
 	}
-	
-	
-	
-	
-	
+
 
 }

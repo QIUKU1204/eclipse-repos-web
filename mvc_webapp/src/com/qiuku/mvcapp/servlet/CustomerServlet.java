@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.qiuku.mvcapp.domain.Customer;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.qiuku.mvcapp.dao.DAO;
+import com.qiuku.mvcapp.dao.factory.CustomerDAOFactory;
 import com.qiuku.mvcapp.dao.impl.CustomerDAOJdbcImpl;
 import com.qiuku.mvcapp.dao.CustomerDAO;
 import com.qiuku.mvcapp.dao.CriteriaCustomer;
@@ -23,9 +24,9 @@ public class CustomerServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	CustomerDAO customerDAO = new CustomerDAOJdbcImpl();
+	//CustomerDAO customerDAO = new CustomerDAOJdbcImpl();
 	
-	// private CustomerDAO customerDAO = CustomerDAOFactory.getInstance().getCustomerDAO();
+	private CustomerDAO customerDAO = CustomerDAOFactory.getInstance().getCustomerDAO();
 	
     /*多请求解决方案1： customerServlet?method=add/query/delete/update
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,16 +64,76 @@ public class CustomerServlet extends HttpServlet {
     
 	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		System.out.println("edit");
+		String idStr = request.getParameter("id");
+		try {
+			Customer customer = customerDAO.get(Integer.parseInt(idStr));
+			request.setAttribute("customer", customer);
+		} catch (NumberFormatException e) {} 
+		
+		request.getRequestDispatcher("/update.jsp").forward(request, response);
 	}
 	
 	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// update
-    	System.out.println("update");
+		System.out.println("update");
+		Integer id =0;
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		String oldname =request.getParameter("oldname");
+		String oldaddress =request.getParameter("oldaddress");
+		String oldphone =request.getParameter("oldphone");
+		try {
+		id=Integer.parseInt(request.getParameter("id"));
+		Customer customer = new Customer(oldname,address,phone);
+		customer.setId(id);
+		if(name==""||address==""||phone==""){//如果为空
+			request.setAttribute("message", "Cannot be empty");
+			if(address=="")
+				customer.setAddress(oldaddress);
+			if(phone=="")
+				customer.setPhone(oldphone);
+			request.setAttribute("customer", customer);
+			request.getRequestDispatcher("/update.jsp").forward(request, response);
+			return ;
+		}
+		else if(!oldname.equalsIgnoreCase(name)) {//如果改名了
+			long count = customerDAO.getCountWithName(name);//检查是否重名
+			if(count>0) {
+				request.setAttribute("message", "Name " + name + " is already occupied");
+				request.setAttribute("customer", customer);
+				request.getRequestDispatcher("/update.jsp").forward(request, response);
+				return ;
+			}
+		}
+		customer.setName(name);//如果不为空且不重名，则将顾客名字设置为该名字
+		customerDAO.update(customer);
+		response.sendRedirect("query.do");
+		}
+		catch (Exception e) {}
+    	
 	}
 	
 	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// save()
     	System.out.println("add");
+    	String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		long count = customerDAO.getCountWithName(name);
+		if(name==""||address==""||phone==""){
+			request.setAttribute("message", "Cannot be empty");
+			request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+		}
+		else if(count>0) {
+			request.setAttribute("message", "Name "+name+" is already occupied");
+			request.getRequestDispatcher("/addCustomer.jsp").forward(request, response);
+		}
+		else {
+			Customer customer = new Customer(name,address,phone);
+			customerDAO.save(customer);
+			request.getRequestDispatcher("/success_addCustomer.jsp").forward(request, response);
+		}			
 	}
 	
 	private void query(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

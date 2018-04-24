@@ -1,7 +1,7 @@
 package com.qiuku.mvcapp.dao;
 
 /**
- * @TODO:CriteriaCustomer.java
+ * @TODO: 用于封装查询条件的JavaBean类，一般应用于模糊查询等情况;
  * @author:QIUKU
  */
 public class CriteriaCustomer {

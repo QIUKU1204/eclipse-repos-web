@@ -15,9 +15,7 @@ import java.util.List;
  */
 public class StudentDao {
 	
-	public void deleteByFlowId(Integer flowId) {
-		
-		
+	public void deleteByFlowId(Integer flowId) {		
     	
     	Connection connection = null;
     	PreparedStatement preparedStatement = null;
