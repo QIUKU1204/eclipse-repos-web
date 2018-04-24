@@ -18,6 +18,7 @@
 </script>
 </head>
 <body>
+
     <%=request.getAttribute("message")==null? "":request.getAttribute("message")%>
     <form action ="query.do" method="post">
 		<table>

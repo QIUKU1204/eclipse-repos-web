@@ -9,6 +9,7 @@
 </head>
 <body>
 
+    <% request.setCharacterEncoding("UTF-8"); %>
     <%	Object msg = request.getAttribute("message");
 		if(msg != null){
 	%>

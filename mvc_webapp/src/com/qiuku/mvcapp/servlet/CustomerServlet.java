@@ -44,6 +44,7 @@ public class CustomerServlet extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 1.获取ServletPath: /edit.do 或 /delete.do
+		request.setCharacterEncoding("UTF-8");
 		String servletPath = request.getServletPath();
 		// 2.去除 / 和 .do, 得到edit或delete这样的字符串
 		String methodName = servletPath.substring(1);
@@ -106,6 +107,7 @@ public class CustomerServlet extends HttpServlet {
 				return ;
 			}
 		}
+		System.out.println(name + address + phone);
 		customer.setName(name);//如果不为空且不重名，则将顾客名字设置为该名字
 		customerDAO.update(customer);
 		response.sendRedirect("query.do");
@@ -126,11 +128,12 @@ public class CustomerServlet extends HttpServlet {
 			request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
 		}
 		else if(count>0) {
-			request.setAttribute("message", "Name "+name+" is already occupied");
+			request.setAttribute("message", "Name " + name + " is already occupied");
 			request.getRequestDispatcher("/addCustomer.jsp").forward(request, response);
 		}
 		else {
 			Customer customer = new Customer(name,address,phone);
+			System.out.println(name + address + phone);
 			customerDAO.save(customer);
 			request.getRequestDispatcher("/success_addCustomer.jsp").forward(request, response);
 		}			
@@ -145,6 +148,7 @@ public class CustomerServlet extends HttpServlet {
 		
 		// 1.调用CustomerDAO的getForListWithCriteriaCustomer()方法得到符合查询条件的Customer数据集
 		List<Customer> customers = customerDAO.getForListWithCriteriaCustomer(criteriaCustomer);
+		System.out.println(customers);
 		// 2.把Customer数据集作为request属性放入请求中
 		request.setAttribute("customers", customers);
 		// 3.把请求转发到index.jsp(且不能使用重定向)
