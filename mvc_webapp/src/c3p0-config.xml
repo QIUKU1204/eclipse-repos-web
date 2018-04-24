@@ -3,7 +3,7 @@
 
   <named-config name="mvcapp"> 
     <property name="user">root</property>
-    <property name="password">120401</property>
+    <property name="password">root</property>
     <property name="driverClass">com.mysql.jdbc.Driver</property>
     <property name="jdbcUrl">jdbc:mysql://localhost:3306/mvc_database</property>
     

@@ -8,8 +8,8 @@
 </head>
 <body>
 
-    <h4>Succes Add customer <%=request.getParameter("name") %></h4>
-	<a href ="query.do">back to index</a>
+    <h4>Success Add customer <%=request.getParameter("name") %></h4>
+	<a href ="query.do">Return to MainPage...</a>
 
 </body>
 </html>

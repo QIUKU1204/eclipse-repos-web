@@ -45,7 +45,7 @@
 			</tr>
 		</table>
 	</form>
-	<a href="index.jsp">baco to index</a>
+	<a href="index.jsp">Return to MainPage...</a>
 
 </body>
 </html>
