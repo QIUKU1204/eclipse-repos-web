@@ -51,7 +51,7 @@
 				<th>CustomerName</th>
 				<th>Address</th>
 				<th>Phone</th>
-				<th>Update\Delete</th>
+				<th>Edit\Delete</th>
 			</tr>
 			<%
 				for(Customer customer:customers){
@@ -61,7 +61,7 @@
 					<td><%=customer.getName() %></td>
 					<td><%=customer.getAddress() %></td>
 					<td><%=customer.getPhone() %></td>
-					<td><a href="edit.do?id=<%=customer.getId()%>">Update\</a>
+					<td><a href="edit.do?id=<%=customer.getId()%>">Edit\</a>
 						<a href="delete.do?id=<%=customer.getId()%>" class="delete">Delete</a></td>
 				</tr>
 			<% 
