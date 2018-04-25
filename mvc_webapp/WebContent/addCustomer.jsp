@@ -12,13 +12,21 @@
     <% request.setCharacterEncoding("UTF-8"); %>
     
     <%	Object msg = request.getAttribute("message");
-		if(msg != null){
+        Object flag = request.getAttribute("flag");
+		if(msg != null && flag == "f"){
 	%>
 	<br>
 	<font color="red"><%=msg %></font>
 	<br>
 	<% 
-		}
+		} 
+		else if(msg != null && flag == "s"){
+	%>
+	<br>
+	<font color="green"><%=msg %></font>
+	<br>
+	<% 
+		} 
 	%>
 	<h4>Add Customer</h4>
 	<form action ="add.do" method="post">

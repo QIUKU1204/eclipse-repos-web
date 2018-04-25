@@ -125,18 +125,22 @@ public class CustomerServlet extends HttpServlet {
 		String phone = request.getParameter("phone");
 		long count = customerDAO.getCountWithName(name);
 		if(name==""||address==""||phone==""){
-			request.setAttribute("message", "Cannot be empty");
+			request.setAttribute("message", "Cannot be empty!");
+			request.setAttribute("flag", "f");
 			request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
 		}
 		else if(count>0) {
-			request.setAttribute("message", "Name " + name + " is already occupied");
+			request.setAttribute("message", "Name " + name + " is already occupied!");
+			request.setAttribute("flag", "f");
 			request.getRequestDispatcher("/addCustomer.jsp").forward(request, response);
 		}
 		else {
 			Customer customer = new Customer(name,address,phone);
 			System.out.println(name + address + phone);
 			customerDAO.save(customer);
-			request.getRequestDispatcher("/success_addCustomer.jsp").forward(request, response);
+			request.setAttribute("flag", "s");
+			request.setAttribute("message", "add new customer " + name + " successfully!");
+			request.getRequestDispatcher("/addCustomer.jsp").forward(request, response);
 		}			
 	}
 	

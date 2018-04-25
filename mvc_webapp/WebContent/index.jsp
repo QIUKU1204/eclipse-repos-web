@@ -25,13 +25,13 @@
     <form action ="query.do" method="post">
 		<table>
 			<tr>
-				<td>CustomerName:</td> <td><input type = "text" name="name"></td>
+				<td>CustomerName:</td> <td><input type = "text" name="name" value="<%=request.getParameter("name")==null? "":request.getParameter("name")%>"></td>
 			</tr>
 			<tr>
-				<td>Address:</td><td> <input type = "text" name="address"></td>
+				<td>Address:</td><td> <input type = "text" name="address" value="<%=request.getParameter("address")==null? "":request.getParameter("address")%>"></td>
 			</tr>
 			<tr>
-				<td>Phone:</td> <td><input type = "text" name="phone"></td>
+				<td>Phone:</td> <td><input type = "text" name="phone" value="<%=request.getParameter("phone")==null? "":request.getParameter("phone")%>"></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="Query"></td> <td><a href = "addCustomer.jsp">Add New Customer</a></td>

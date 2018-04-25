@@ -24,13 +24,18 @@
 ### issues
 
  - 中文乱码问题: 
-   - 在addCustomer.jsp页面中输入中文信息后，这些中文参数经request传到CustomerServlet中的add()方法，再由CustomerDAO的实现类的save()方法插入到数据表中;
-   - update.jsp同理;
-   - 中文数据在传到Servlet中并被request.getParameter()读取时就已经变成乱码: `æµ?ç?°ç??å¤®` 显然这是由网络传输所导致的;
-   - 解决方法: 与jsp中文乱码的相同 `request.setCharacterEncoding("UTF-8")`;
-   - 使用save()方法将中文数据写入数据表时也会出现乱码问题: `每个中文将变为1个?`;
+   - 在addCustomer.jsp页面输入中文信息后，这些中文参数通过request传到CustomerServlet中的add()方法，再由CustomerDAO的实现类的save()方法插入到数据表中;
+   - `JSP -> Servlet -> MySQL`
+   - 中文数据传到Servlet中并被request.getParameter()读取时变成乱码: `æµ?ç?°ç??å¤®` 显然这是由网络传输所导致的;
+   - 解决方法: `request.setCharacterEncoding("UTF-8")`;
+   - 将中文数据写入数据表时也会出现乱码问题: `每个中文将变为1个?`;
    - 解决方法: `jdbc:mysql://localhost:3306/mvc_database?characterEncoding=utf8`;
+   - 总结: 浏览器到Tomcat的URL要使用utf-8, Tomcat到数据库的URL同样要使用utf-8;
  
    
  - 在index.jsp页面单击Query后，应使查询条件停留在对应的输入文本框内;
+ 
+ - 在addCustomer.jsp页面单击Add后，输入文本框的内容应不变;
+ 
+ - 新建用户成功时，在addCustomer.jsp页面中应显示红色警告信息;失败时则提示绿色提示信息;
  
