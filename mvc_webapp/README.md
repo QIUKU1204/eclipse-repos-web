@@ -23,7 +23,7 @@
 
 ### issues
 
- - 中文乱码问题: 
+ 1. 中文乱码问题: 
    - 在addCustomer.jsp页面输入中文信息后，这些中文参数通过request传到CustomerServlet中的add()方法，再由CustomerDAO的实现类的save()方法插入到数据表中;
    - `JSP -> Servlet -> MySQL`
    - 中文数据传到Servlet中并被request.getParameter()读取时变成乱码: `æµ?ç?°ç??å¤®` 显然这是由网络传输所导致的;
@@ -32,10 +32,27 @@
    - 解决方法: `jdbc:mysql://localhost:3306/mvc_database?characterEncoding=utf8`;
    - 总结: 浏览器到Tomcat的URL要使用utf-8, Tomcat到数据库的URL同样要使用utf-8;
  
+ 2. 当存入数据的编码与MySQL数据库的编码不一致时，可能会出现如下异常:
+   - `java.sql.SQLException: Illegal mix of collations (latin1_swedish_ci,IMPLICIT) and (utf8_general_ci,COERCIBLE) for operation '=' Query: SELECT count(id) FROM customers WHERE name = ? Parameters: [西瓜]`;
+   - `java.sql.SQLException: Incorrect string value: '\xE6\x88\x90\xE9\x83\xBD' for column 'address' at row 1 Query: UPDATE customers SET name = ?, address = ?, phone = ? WHERE id = ? Parameters: [xigua, 成都, 15789456325, 1]`;
    
- - 在index.jsp页面单击Query后，应使查询条件停留在对应的输入文本框内;
+ 3. 关于Java中的异常处理:
+   - 被调用的内层方法若发生异常，会将异常往上抛，由外层方法的try...catch块捕获并处理；
+   - 若发生异常的内层方法自带try...catch块，则由内层方法捕获并处理异常，不会再往外层抛；
+   - 若一段代码前有异常抛出，且这个异常没有被捕获处理，则这段代码将无法继续执行；
+   - 若一段代码前有异常抛出，且这个异常被try...catch捕获处理，则这段代码可以被执行；
+   
+ 4. Java中的异常: 
+   - 运行时异常(RuntimeException): 运行时异常是RuntimeException类及其子类的异常，是非受检异常，如NullPointerException、IndexOutOfBoundsException等;
+    - JVM必须停止运行以改正这种错误，所以运行时异常可以不进行处理(当然也可以处理)，而由JVM自行处理;
+    - Java Runtime会自动catch到程序throw的RuntimeException，然后停止线程，打印异常;
+   - 非运行时异常(Exception): 非运行时异常是RuntimeException以外的异常，类型上都属于Exception类及其子类，是受检异常;
+    - 非运行时异常必须进行处理（捕获或向上抛出），如果不处理，程序将出现编译错误;
+    - 一般情况下，API中写了throws的Exception都不是RuntimeException;  
+   
+ 5. 在index.jsp页面单击Query后，应使查询条件停留在对应的输入文本框内;
  
- - 在addCustomer.jsp页面单击Add后，输入文本框的内容应不变;
+ 6. 在addCustomer.jsp页面单击Add后，输入文本框的内容应不变;
  
- - 新建用户成功时，在addCustomer.jsp页面中应显示红色警告信息;失败时则提示绿色提示信息;
+ 7. 新建用户成功时，在addCustomer.jsp页面中应显示红色警告信息; 失败时则提示绿色提示信息;
  

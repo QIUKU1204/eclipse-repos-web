@@ -50,7 +50,7 @@ public class DAO<T> {
 		Connection connection = null;
 		try {
 			connection = JdbcUtils.getConnection();
-			// ???
+			// ??? !!!
 			return (E) queryRunner.query(connection,sql,new ScalarHandler(),args);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -70,7 +70,7 @@ public class DAO<T> {
 		Connection connection = null;
 		try {
 			connection = JdbcUtils.getConnection();
-			// ???
+			// ??? !!!
 			return queryRunner.query(connection,sql,new BeanListHandler<>(clazz),args);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +90,7 @@ public class DAO<T> {
 		Connection connection = null;
 		try {
 			connection = JdbcUtils.getConnection();
-			// ???
+			// ??? !!!
 			return queryRunner.query(connection,sql,new BeanHandler<>(clazz),args);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -110,7 +110,7 @@ public class DAO<T> {
 		Connection connection = null;
 		try {
 			connection = JdbcUtils.getConnection();
-			// ???
+			// ??? !!!
 			queryRunner.update(connection,sql,args);
 		}catch (Exception e) {
 			e.printStackTrace();

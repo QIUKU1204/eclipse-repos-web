@@ -48,7 +48,7 @@
 			</tr>
 		</table>
 	</form>
-	<a href="index.jsp">Return to MainPage...</a>
+	<a href="query.do">Return to MainPage...</a>
 	
 </body>
 </html>
