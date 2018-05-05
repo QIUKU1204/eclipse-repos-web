@@ -1,4 +1,4 @@
-package com.qiuku.mvcapp.dao;
+package com.qiuku.mvcapp.domain;
 
 /**
  * @TODO: 用于封装查询条件的JavaBean类，一般应用于模糊查询等情况;

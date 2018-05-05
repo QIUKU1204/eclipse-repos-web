@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jasper.tagplugins.jstl.core.Out;
 
+import com.qiuku.mvcapp.domain.CriteriaCustomer;
 import com.qiuku.mvcapp.domain.Customer;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.qiuku.mvcapp.dao.DAO;
 import com.qiuku.mvcapp.dao.factory.CustomerDAOFactory;
 import com.qiuku.mvcapp.dao.impl.CustomerDAOJdbcImpl;
 import com.qiuku.mvcapp.dao.CustomerDAO;
-import com.qiuku.mvcapp.dao.CriteriaCustomer;
 
 
 
@@ -82,44 +82,53 @@ public class CustomerServlet extends HttpServlet {
 		// update
 		System.out.println("update");
 		Integer id =0;
-		String name = request.getParameter("name");
-		String address = request.getParameter("address");
-		String phone = request.getParameter("phone");
+		String newname = request.getParameter("name");
+		String newaddress = request.getParameter("address");
+		String newphone = request.getParameter("phone");
 		String oldname =request.getParameter("oldname");
 		String oldaddress =request.getParameter("oldaddress");
 		String oldphone =request.getParameter("oldphone");
-		// long count1 = customerDAO.getCountWithName(name); //检查是否重名
 		try {
+			
 			id=Integer.parseInt(request.getParameter("id"));
-			Customer customer = new Customer(oldname,address,phone);
+			Customer customer = new Customer(oldname,newaddress,newphone);
 			customer.setId(id);
-			if(name==""||address==""||phone==""){ // 如果为空
+			if(newname==""||newaddress==""||newphone==""){ // 如果为空
 				request.setAttribute("message", "Cannot be empty");
-				if(address=="")
+				if(newaddress=="")
 					customer.setAddress(oldaddress);
-				if(phone=="")
+				if(newphone=="")
 					customer.setPhone(oldphone);
 				request.setAttribute("customer", customer);
 				request.getRequestDispatcher("/updateCustomer.jsp").forward(request, response);
 				return ;
 			}
-			else if(!oldname.equalsIgnoreCase(name)) { // 如果改名了
+			// 若此处使用else if(count>0), 则没有改名即被认为是重名
+			else if(!oldname.equals(newname)) { // 如果改名了
 				// 若在此方法内发生java.sql.SQLException，程序会由于空指针异常而中断，并转向catch块;
-				long count = customerDAO.getCountWithName(name); //检查是否重名
-				response.sendRedirect("query.do");
-				if(count>0) {
-					request.setAttribute("message", "Name " + name + " is already occupied");
+				long count = customerDAO.getCountWithName(newname); //检查是否重名
+				if (count>0) { // 如果改的名字与表中其他用户名重名
+					request.setAttribute("message", "Name " + newname + " is already occupied");
 					request.setAttribute("customer", customer);
 					request.getRequestDispatcher("/updateCustomer.jsp").forward(request, response);
 					return ;
 				}
+				// 改名且不重名
+				customer.setName(newname);
+				// 若在此方法内发生java.sql.SQLException，程序不会中断，也不会转向catch块;
+				customerDAO.update(customer);
+				System.out.println("修改更新成功！");
+		    	response.sendRedirect("query.do");
 			}
-			// 如果不为空且不重名
-			customer.setName(name);
-			// 若在此方法内发生java.sql.SQLException，程序不会中断，也不会转向catch块;
-			customerDAO.update(customer);
-			response.sendRedirect("query.do");
-			System.out.println("可以继续执行呢！不会中断哦！");
+			else {
+				// 剩下的情况是: 1.什么都没改，一切保持原样；2.没改名，但改了地址或电话；
+				customer.setName(newname);
+				// 若在此方法内发生java.sql.SQLException，程序不会中断，也不会转向catch块;
+				customerDAO.update(customer);
+				System.out.println("修改更新成功！");
+				response.sendRedirect("query.do");
+				System.out.println("可以继续执行呢！不会中断哦！");
+			}
 		}
 		catch (Exception e) {
 			// java.lang.NullPointerException 这是一个空指针异常
@@ -140,18 +149,20 @@ public class CustomerServlet extends HttpServlet {
 		if(name==""||address==""||phone==""){ // 如果为空
 			request.setAttribute("message", "Cannot be empty!");
 			request.setAttribute("flag", "f");
+			// 使用请求转发才能在jsp中获取request的参数
 			request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
 		}
-		else if(count>0) { // 如果已存在
+		else if(count>0) { // 如果重名
 			request.setAttribute("message", "Name " + name + " is already occupied!");
 			request.setAttribute("flag", "f");
 			request.getRequestDispatcher("/addCustomer.jsp").forward(request, response);
 		}
-		else {
+		else { // 如果不为空&&不重名
 			Customer customer = new Customer(name,address,phone);
 			customerDAO.save(customer);
-			request.setAttribute("flag", "s");
+			System.out.println("添加保存成功！");
 			request.setAttribute("message", "add new customer " + name + " successfully!");
+			request.setAttribute("flag", "s");
 			request.getRequestDispatcher("/addCustomer.jsp").forward(request, response);
 		}			
 	}

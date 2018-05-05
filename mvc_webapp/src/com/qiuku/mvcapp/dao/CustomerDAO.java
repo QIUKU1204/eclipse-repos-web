@@ -1,7 +1,8 @@
 package com.qiuku.mvcapp.dao;
 
 import java.util.List;
-import com.qiuku.mvcapp.dao.CriteriaCustomer;
+
+import com.qiuku.mvcapp.domain.CriteriaCustomer;
 import com.qiuku.mvcapp.domain.Customer;
 /**
  * @TODO:CustomerDAO.java

@@ -1,5 +1,7 @@
 package com.qiuku.mvcapp.domain;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 /**
  * @TODO:Customer.java
  * @author:QIUKU
@@ -13,6 +15,7 @@ public class Customer {
 	private String address;
 	
 	private String phone;
+	
 
 	/**
 	 * @return the id

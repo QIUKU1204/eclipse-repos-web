@@ -2,9 +2,9 @@ package com.qiuku.mvcapp.dao.impl;
 
 import java.util.List;
 
-import com.qiuku.mvcapp.dao.CriteriaCustomer;
 import com.qiuku.mvcapp.dao.CustomerDAO;
 import com.qiuku.mvcapp.dao.DAO;
+import com.qiuku.mvcapp.domain.CriteriaCustomer;
 import com.qiuku.mvcapp.domain.Customer;
 
 /**
