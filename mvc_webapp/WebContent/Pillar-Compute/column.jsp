@@ -13,11 +13,11 @@
     
     <br/>
 
-    <center><h1><a href="rightTriangle.jsp">计算直角三角形中的柱子</a></h1></center>
+    <center><h1><a href="/Pillar-Compute/rightTriangle.jsp">计算直角三角形中的柱子</a></h1></center>
     
     <br/>
     
-    <center><h1><a href="rightTrapezoid.jsp">计算直角梯形中的柱子</a></h1></center>
+    <center><h1><a href="/Pillar-Compute/rightTrapezoid.jsp">计算直角梯形中的柱子</a></h1></center>
     
 
 </body>

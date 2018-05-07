@@ -67,3 +67,13 @@
  
  12. 测试Cookie的作用范围和路径问题;
  
+ 13. 关于HttpSession对象的生命周期;
+ 
+ 14. 测试HttpSession接口的常用方法;
+ 
+ 15. 利用URL重写技术实现Session会话追踪管理;
+ 
+ 16. 利用Session实现简易购物车功能: 三个jsp页面 + 两个Servlet + 一个实体类 ; 利用HttpSession对象在请求重定向的情况下传递各种参数与属性;
+ 
+ 17. Web应用中的绝对路径与相对路径问题: 写相对路径可能会有问题, 写绝对路径则肯定没有问题; 在开发中建议使用绝对路径而不是相对路径; request.getContextPath();
+ 

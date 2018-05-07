@@ -35,7 +35,7 @@
 	<!-- <form action="index.jsp" method="post"> -->
 		
 		username: <input type="text" name="username" value="<%= username %>"/>
-		<input type="submit" value="Submit"/>
+		<input type="submit" value="login!"/>
 	
 	</form>
 

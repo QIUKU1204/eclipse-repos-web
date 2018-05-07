@@ -4,34 +4,29 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>计算直角梯形中的柱子高度</title>
+<title>计算直角三角形中的柱子高度</title>
 </head>
 <body>
 
-    <h2>你好，这里是直角梯形柱子计算！</h2>
+    <h2>你好，这里是直角三角形柱子计算！</h2>
     <% request.setCharacterEncoding("UTF-8"); %>
     
     <%	Object msg = request.getAttribute("message");
 		if(msg != null){
 	%>
 	<h3><font color="red"><%=msg %></font></h3>
-	<br>
 	<% 
 		} 
 	%>
-    <form action ="rightTrapezoid.do" method="post">
+    <form action ="rightTriangle.do" method="post">
 		<table style="font-size:20px;">
 			<tr>
-				<td>输入梯形上底h:</td>
-				<td><input type = "text" name="H1" value="<%=request.getParameter("H1")==null?"":request.getParameter("H1") %>"></td> 
+				<td>输入直角边L:</td>
+				<td><input type = "text" name="L" value="<%=request.getParameter("L")==null?"":request.getParameter("L") %>"></td> 
 			</tr>
 			<tr>
-				<td>输入梯形下底H:</td>
-				<td><input type = "text" name="H2" value="<%=request.getParameter("H2")==null?"":request.getParameter("H2") %>"></td>
-			</tr>
-			<tr>
-				<td>输入梯形的高L:</td>
-				<td><input type = "text" name="L" value="<%=request.getParameter("L")==null?"":request.getParameter("L") %>"></td>
+				<td>输入直角边H:</td>
+				<td><input type = "text" name="H" value="<%=request.getParameter("H")==null?"":request.getParameter("H") %>"></td>
 			</tr>
 			<tr>
 				<td>输入L1......Ln:</td>
@@ -72,7 +67,7 @@
 	
 	<br>
 	
-	<h3><a href="column.jsp">返回初始页面</a></h3>
+	<h3><a href="/Pillar-Compute/column.jsp">返回初始页面</a></h3>
 
 </body>
 </html>

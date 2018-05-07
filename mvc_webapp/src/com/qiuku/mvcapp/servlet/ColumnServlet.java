@@ -57,14 +57,14 @@ public class ColumnServlet extends HttpServlet {
 				LnArray[i] = Float.parseFloat(LnArrayStr[i]);
 				if(LnArray[i] > L) {
 					request.setAttribute("message", "Ln > L,请检查输入！");
-					request.getRequestDispatcher("rightTriangle.jsp").forward(request, response);
+					request.getRequestDispatcher("/Pillar-Compute/rightTriangle.jsp").forward(request, response);
 				}
 				rightTriangle.setLn(LnArray[i]);
 				HnArray[i] = rightTriangle.getHn();
 			}
 			System.out.println("HnArray: " + HnArray + ";" + "LnArray: " + LnArray);
 			request.setAttribute("HnArray", HnArray);
-			request.getRequestDispatcher("rightTriangle.jsp").forward(request, response);
+			request.getRequestDispatcher("/Pillar-Compute/rightTriangle.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			e.getLocalizedMessage();
@@ -91,14 +91,14 @@ public class ColumnServlet extends HttpServlet {
 				LnArray[i] = Float.parseFloat(LnArrayStr[i]);
 				if(LnArray[i] > L) {
 					request.setAttribute("message", "Ln > L,请检查输入！");
-					request.getRequestDispatcher("rightTrapezoid.jsp").forward(request, response);
+					request.getRequestDispatcher("/Pillar-Compute/rightTrapezoid.jsp").forward(request, response);
 				}
 				rightTrapezoid.setLn(LnArray[i]);
 				HnArray[i] = rightTrapezoid.getHn();
 			}
 			System.out.println("HnArray: " + HnArray + ";" + "LnArray: " + LnArray);
 			request.setAttribute("HnArray", HnArray);
-			request.getRequestDispatcher("rightTrapezoid.jsp").forward(request, response);
+			request.getRequestDispatcher("/Pillar-Compute/rightTrapezoid.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			e.getLocalizedMessage();
