@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Welcome!</title>
+<title>Login!</title>
 </head>
 <body>
 
-    <!-- Cookie实现自动登录 -->
+     <!-- Cookie实现自动登录 -->
     <% 
         request.setCharacterEncoding("UTF-8");
 		// 若可以从request中获取请求参数name, 则打印出欢迎信息
@@ -42,6 +42,7 @@
 		}	
 		
 	%>
+
 
 </body>
 </html>

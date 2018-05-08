@@ -77,3 +77,7 @@
  
  17. Web应用中的绝对路径与相对路径问题: 写相对路径可能会有问题, 写绝对路径则肯定没有问题; 在开发中建议使用绝对路径而不是相对路径; request.getContextPath();
  
+ 18. 表单的重复提交: 重复提交的原因; 重复提交的危害; 如何避免重复提交;
+ 
+ 19. 利用Session实现验证码功能: 两个Servlet: ValidateColorServlet 负责生成验证码图片 + CheckCodeServlet 负责验证是否一致及后续处理;
+ 
