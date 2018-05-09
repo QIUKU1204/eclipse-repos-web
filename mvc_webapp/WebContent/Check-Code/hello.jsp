@@ -8,7 +8,9 @@
 </head>
 <body>
 
-    <p>通过验证！成功登陆!</p>
+    <p><font color="red">
+		<%= session.getAttribute("message") == null ? "" : session.getAttribute("message")%>
+	</font></p>
     <p>验证成功！欢迎: <%=request.getParameter("name") %>！</p>
 
 </body>

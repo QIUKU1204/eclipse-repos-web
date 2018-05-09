@@ -81,3 +81,9 @@
  
  19. 利用Session实现验证码功能: 两个Servlet: ValidateColorServlet 负责生成验证码图片 + CheckCodeServlet 负责验证是否一致及后续处理;
  
+ 20. 在原MVC案例中增加验证码功能: 重定向可以使用基于当前web应用的绝对路径，请求转发不可以使用该绝对路径;
+ 
+ 21. 在请求转发中不能使用"绝对路径"`request.getContextPath() + "/Check-Code/index.jsp"`的原因: 
+     - 请求转发的  / 代表当前web应用的根目录;
+     - 重定向的 / 代表当前站点的根目录;
+     

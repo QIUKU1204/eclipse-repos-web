@@ -20,18 +20,44 @@
 <body>
 
     <% request.setCharacterEncoding("UTF-8"); %>
-    
-    <%=request.getAttribute("message")==null? "":request.getAttribute("message")%>
+
+    <%	Object msg = request.getAttribute("message");
+        Object flag = request.getAttribute("flag");
+		if(msg != null && flag == "false"){
+	%>
+	<br>
+	<font color="red"><%=msg %></font>
+	<br>
+	<% 
+		} 
+		else if(msg != null && flag == "success"){
+	%>
+	<br>
+	<font color="green"><%=msg %></font>
+	<br>
+	<% 
+		} 
+	%>
+	<br/>
+	
     <form action ="query.do" method="post">
-		<table>
+		<table border="1" cellpadding="10" cellspacing="0">
 			<tr>
-				<td>CustomerName:</td> <td><input type = "text" name="name" value="<%=request.getParameter("name")==null? "":request.getParameter("name")%>"></td>
+				<td colspan="2">CustomerName: <input type = "text" name="name" value="<%=request.getParameter("name")==null? "":request.getParameter("name")%>"></td>
 			</tr>
 			<tr>
-				<td>Address:</td><td> <input type = "text" name="address" value="<%=request.getParameter("address")==null? "":request.getParameter("address")%>"></td>
+				<td colspan="2">Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				<input type = "text" name="address" value="<%=request.getParameter("address")==null? "":request.getParameter("address")%>"></td>
+			</tr> 
+			<tr>
+				<td colspan="2">Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 <input type = "text" name="phone" value="<%=request.getParameter("phone")==null? "":request.getParameter("phone")%>"></td>
 			</tr>
 			<tr>
-				<td>Phone:</td> <td><input type = "text" name="phone" value="<%=request.getParameter("phone")==null? "":request.getParameter("phone")%>"></td>
+			    <td >CheckCode: <input type="text" name="CHECK_CODE_PARAM_NAME" 
+			                       value="<%=request.getParameter("CHECK_CODE_PARAM_NAME")==null? "":request.getParameter("CHECK_CODE_PARAM_NAME")%>"></td>
+		        <!-- 生成验证码图片 -->
+		        <td ><img alt="" src="<%= request.getContextPath() %>/validateColorServlet"></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="Query"></td> <td><a href = "addCustomer.jsp">Add New Customer</a></td>

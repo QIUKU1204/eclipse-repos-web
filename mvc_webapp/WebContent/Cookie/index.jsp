@@ -11,7 +11,7 @@
      <!-- Cookie实现自动登录 -->
     <% 
         request.setCharacterEncoding("UTF-8");
-		// 若可以从request中获取请求参数name, 则打印出欢迎信息
+		// 若可以从request中获取请求参数name
 		// 把登录信息存储到 Cookie 中，并设置 Cookie 的最大时效为 30S
 		String name = request.getParameter("name");
 		if(name != null && !name.trim().equals("")){
@@ -32,8 +32,10 @@
 				}
 			}			
 		}
+		
 		// 空字符串是""，会创建一个对象，有内存空间；而null，不会创建对象，没有内存空间
 		// String.trim()方法remove字符串的首尾空白字符 (leading and trailing whitespace)
+		
 		if(name != null && !name.trim().equals("")){
 			out.print("Hello: " + name);
 		}else{

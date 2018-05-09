@@ -169,6 +169,29 @@ public class CustomerServlet extends HttpServlet {
 	
 	private void query(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// get(),getAll,getForListWithCriteriaCustomer()
+		
+		// 1. 获取请求参数: CHECK_CODE_PARAM_NAME;
+		String paramCode = request.getParameter("CHECK_CODE_PARAM_NAME");
+
+		// 2. 获取 session 中的 CHECK_CODE_KEY 属性值;ֵ
+		String sessionCode = (String) request.getSession().getAttribute("CHECK_CODE_KEY");
+
+		System.out.println(paramCode);
+		System.out.println(sessionCode + "\n");
+
+		// 3. 对比是否一致;
+		if ( !(paramCode != null && paramCode.equals(sessionCode)) ) {
+			// 注意，在使用session的情况下，当验证成功时，也会显示验证码错误的信息
+			request.setAttribute("message", "验证码错误！");
+			request.setAttribute("flag", "false");
+			//1. 重定向的  / 表示 http://服务器ip:端口/
+		    //2. 请求转发的  / 表示 http://服务器ip:端口/项目名
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			return;
+		}
+
+		request.setAttribute("message", "验证码正确！");
+		request.setAttribute("flag", "success");
 		String name = request.getParameter("name");
 		String address = request.getParameter("address");
 		String phone = request.getParameter("phone");

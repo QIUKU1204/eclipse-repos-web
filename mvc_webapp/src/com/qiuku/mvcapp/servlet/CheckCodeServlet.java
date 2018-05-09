@@ -33,8 +33,9 @@ public class CheckCodeServlet extends HttpServlet {
 			return;
 		}
         
-		request.getRequestDispatcher(request.getContextPath() + "/Check-Code/hello.jsp").forward(request, response);
-		System.out.println("��������!");
+		request.getSession().setAttribute("message", "验证码正确！");
+		request.getRequestDispatcher("/Check-Code/hello.jsp").forward(request, response);
+		System.out.println("验证成功!");
 	}
 
 }
