@@ -30,7 +30,7 @@
 	%>
 	<h4>Add Customer</h4>
 	<form action ="add.do" method="post">
-		<table>
+		<table border="1" cellpadding="10" cellspacing="0">
 			<tr>
 				<td>CustomerName:</td>
 				<td><input type = "text" name="name" value="<%=request.getParameter("name")==null? "":request.getParameter("name")%>"></td>
@@ -44,11 +44,13 @@
 				<td><input type = "text" name="phone" value="<%=request.getParameter("phone")==null? "":request.getParameter("phone")%>"></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="Add"></td>
+				<td ><input type="submit" value="Add"></td>
+				<td><a href="index.jsp">Return to MainPage...</a></td>
 			</tr>
 		</table>
 	</form>
-	<a href="query.do">Return to MainPage...</a>
+	<br><br><hr>
+	
 	
 </body>
 </html>

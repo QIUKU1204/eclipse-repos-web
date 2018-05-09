@@ -22,13 +22,15 @@
 		Customer customer =(Customer)request.getAttribute("customer");
 	%>
 	<form action ="update.do" method="post">
-		<table>
-			<tr>
+	    <table>
+	       <tr>
 				<td><input type="hidden" name="id" value=<%= customer.getId()%>></td>
 				<td><input type="hidden" name="oldname" value=<%= customer.getName()%> ></td>
 				<td><input type="hidden" name="oldaddress" value=<%= customer.getAddress() %>></td>
 				<td><input type="hidden" name="oldphone" value=<%= customer.getPhone()%> ></td>
 			</tr>
+		</table>
+		<table border="1" cellpadding="10" cellspacing="0">
 			<tr>
 				<td>CustomerName:</td>
 				<td><input type = "text" name="name" value="<%=customer.getName()%>"></td>
@@ -43,11 +45,12 @@
 			</tr>
 			<tr>
 				<td><input type="submit" value="Update"></td>
-				
+				<td><a href="index.jsp">Return to MainPage...</a></td>
 			</tr>
 		</table>
 	</form>
-	<a href="index.jsp">Return to MainPage...</a>
+	<br><br><hr>
+	
 
 </body>
 </html>
