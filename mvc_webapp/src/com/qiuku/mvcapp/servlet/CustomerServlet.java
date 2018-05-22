@@ -173,15 +173,16 @@ public class CustomerServlet extends HttpServlet {
 		// 1. 获取请求参数: CHECK_CODE_PARAM_NAME;
 		String paramCode = request.getParameter("CHECK_CODE_PARAM_NAME");
 
-		// 2. 获取 session 中的 CHECK_CODE_KEY 属性值;ֵ
+		// 2. 获取 Session 中的 CHECK_CODE_KEY 属性值;ֵ
 		String sessionCode = (String) request.getSession().getAttribute("CHECK_CODE_KEY");
-
-		System.out.println(paramCode);
-		System.out.println(sessionCode + "\n");
 
 		// 3. 对比是否一致;
 		if ( !(paramCode != null && paramCode.equals(sessionCode)) ) {
 			// 注意，在使用session的情况下，当验证成功时，也会显示验证码错误的信息
+			/*request.getSession().setAttribute("message", "验证码错误！");
+			request.getSession().setAttribute("flag", "false");
+			response.sendRedirect(request.getContextPath() + "/index.jsp");*/
+			
 			request.setAttribute("message", "验证码错误！");
 			request.setAttribute("flag", "false");
 			//1. 重定向的  / 表示 http://服务器ip:端口/
@@ -197,11 +198,11 @@ public class CustomerServlet extends HttpServlet {
 		String phone = request.getParameter("phone");
 		CriteriaCustomer criteriaCustomer = new CriteriaCustomer(name, address, phone);
 		
-		// 1.调用CustomerDAO的getForListWithCriteriaCustomer()方法得到符合查询条件的Customer数据集
+		// 1. 调用CustomerDAO的getForListWithCriteriaCustomer()方法得到符合查询条件的Customer数据集
 		List<Customer> customers = customerDAO.getForListWithCriteriaCustomer(criteriaCustomer);
-		// 2.把Customer数据集作为request属性放入请求中
+		// 2. 把Customer数据集作为request属性放入请求中
 		request.setAttribute("customers", customers);
-		// 3.把请求转发到index.jsp(且不能使用重定向)
+		// 3. 把请求转发到index.jsp(且不能使用重定向)
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
     

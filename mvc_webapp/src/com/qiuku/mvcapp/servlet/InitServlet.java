@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.qiuku.mvcapp.dao.factory.CustomerDAOFactory;
+import com.qiuku.mvcapp.dao.factory.UserDAOFactory;
 
 public class InitServlet extends HttpServlet {
 
@@ -23,7 +24,8 @@ public class InitServlet extends HttpServlet {
 		try {
 			properties.load(in);
 			String type =properties.getProperty("type");
-			CustomerDAOFactory.getInstance().setType(type);
+			// 静态成员在内存中只有一个副本，由类本身和类的多个实例对象所共享
+			UserDAOFactory.getInstance().setType(type);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
