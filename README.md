@@ -13,20 +13,8 @@
  [mvc案例(验证码)](http://47.106.11.169:8080/mvcapp/index.jsp)
 
 ---
- 
- [显示最近浏览商品](http://47.106.11.169:8080/cookie/Cookie/books.jsp)
 
----
-
- [注销用户](http://47.106.11.169:8080/session/Session/login.jsp)
-
----
-
- [简易购物车](http://47.106.11.169:8080/shopping-cart/Shopping-Cart/step1.jsp)
-
----
-
- [验证码](http://47.106.11.169:8080/shopping-cart/Check-Code/index.jsp)
+ [book-store](http://47.106.11.169:8080/book-store/book-store/login.jsp)
 
 ---
 
