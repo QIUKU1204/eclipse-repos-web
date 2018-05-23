@@ -31,13 +31,14 @@ public class UserServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	// 静态成员在内存中只有一个副本，由类本身和类的多个实例对象所共享
+	// 静态成员在内存中只有一个副本，由类本身和类的多个实例对象所共享;
 	private CustomerDAO customerDAO = CustomerDAOFactory.getInstance().getCustomerDAO();
 	
 	// 静态成员 userDAOFactory 在内存中只有一个副本，由类本身和类的多个实例对象所共享;
-	// 0. UserDAOJdbcImpl类的实例对象在第一次请求 UserServlet 时创建一次即可，因此对应的数据库连接也只需要创建一次;
-	// private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();
-	// 1. UserDAOJdbcImpl类的实例对象在每次请求 UserServlet 时都要创建，因此对应的数据库连接也需要频繁创建;
+	// 0. UserDAOJdbcImpl类的实例对象在第一次请求 UserServlet 时创建一次即可;
+	// ps: 该静态实例对象同时只能在一处被使用，否则调用对象的方法时会产生空指针异常;
+	private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();
+	// 1. UserDAOJdbcImpl类的实例对象在每次请求 UserServlet 时都要创建;
 	/*private UserDAO userDAO = new UserDAOJdbcImpl();*/
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
