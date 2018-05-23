@@ -36,7 +36,7 @@ public class UserServlet extends HttpServlet {
 	
 	// 静态成员 userDAOFactory 在内存中只有一个副本，由类本身和类的多个实例对象所共享;
 	// 0. UserDAOJdbcImpl类的实例对象在第一次请求 UserServlet 时创建一次即可，因此对应的数据库连接也只需要创建一次;
-	private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();
+	// private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();
 	// 1. UserDAOJdbcImpl类的实例对象在每次请求 UserServlet 时都要创建，因此对应的数据库连接也需要频繁创建;
 	/*private UserDAO userDAO = new UserDAOJdbcImpl();*/
 	

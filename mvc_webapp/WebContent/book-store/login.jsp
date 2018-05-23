@@ -165,7 +165,7 @@
 	    <div class="row" style="margin-left: 200px; padding-left: 200px; margin-right: 200px; padding-right: 200px">
 		    <div class="col-xs-12" style="text-align: center; padding: 25px; background-image: url('<%= request.getContextPath() %>/book-store/bg.jpg')">
 				
-		    	<form action="<%= request.getContextPath() %>/login.do" method="post">
+		    	<form action="<%= request.getContextPath() %>/book-store/index.jsp" method="post">
 		    	    <div class="page-header" style="margin-top: 10px">
 	    				<h2><font color="#FF9797">当当书店</font><br/>
 	    				<small style="color: #FFBB77">书籍是人类进步的阶梯</small></h2>
@@ -175,19 +175,19 @@
 		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 		    			<input type="text" name="username" class="form-control" placeholder="输入用户名" value="${param.username}" aria-describedby="sizing-addon2">		
 		    		</div>
-		    		<span id="nameErr" style="color:red">${requestScope.message1}</span><br>
+		    		<span id="usernameErr" style="color:red">${requestScope.message1}</span><br>
 		    		
 		    		<div class="input-group">
 		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
 		    			<input type="password" name="password" class="form-control" placeholder="输入密码" value="${param.password}" aria-describedby="sizing-addon2">
 		    		</div>
-		    		<span id="nameErr" style="color:red">${requestScope.message2}</span><br>
+		    		<span id="passwordErr" style="color:red">${requestScope.message2}</span><br>
 		    		
 		    		<div class="input-group">
 		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></span>
 		    			<input type="text" name="CHECK_CODE_PARAM_NAME" class="form-control" placeholder="输入验证码" value="${param.CHECK_CODE_PARAM_NAME}" aria-describedby="sizing-addon2">		
 		    		</div>
-		    		<span id="nameErr" style="color:red">${requestScope.message3}</span><br>
+		    		<span id="checkcodeErr" style="color:red">${requestScope.message3}</span><br>
 		    		
 		    		<button type="submit" class="btn btn-primary" style="width: 289px">登录</button><br/><br/>
 		        	<!-- 生成验证码图片 -->

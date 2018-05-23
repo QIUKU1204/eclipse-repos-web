@@ -9,7 +9,7 @@
     <servlet-name>customerServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping> -->
-  <!-- CustomerServlet -->
+  <!-- UserServlet -->
   <servlet>
     <servlet-name>userServlet</servlet-name>
     <servlet-class>com.qiuku.mvcapp.servlet.UserServlet</servlet-class>
@@ -23,7 +23,54 @@
     <display-name>initServlet</display-name>
     <servlet-name>initServlet</servlet-name>
     <servlet-class>com.qiuku.mvcapp.servlet.InitServlet</servlet-class>
-    <!-- 在WEB应用启动时就加载这个servlet -->
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <!-- CheckLoginFilter -->
+  <!-- <filter>
+  	<filter-name>checkLoginFilter</filter-name>
+  	<filter-class>com.qiuku.mvcapp.filter.CheckLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>checkLoginFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>  -->
+  <!-- CheckcodeFilter -->
+  <filter>
+  	<filter-name>checkcodeFilter</filter-name>
+  	<filter-class>com.qiuku.mvcapp.filter.CheckcodeFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>checkcodeFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
+  <!-- UsernameFilter -->
+  <filter>
+  	<filter-name>usernameFilter</filter-name>
+  	<filter-class>com.qiuku.mvcapp.filter.UsernameFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>usernameFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
+  <!-- PasswordFilter -->
+  <filter>
+  	<filter-name>passwordFilter</filter-name>
+  	<filter-class>com.qiuku.mvcapp.filter.PasswordFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>passwordFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
 </web-app>
