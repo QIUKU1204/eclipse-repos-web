@@ -165,7 +165,7 @@
 	    <div class="row" style="margin-left: 200px; padding-left: 200px; margin-right: 200px; padding-right: 200px">
 		    <div class="col-xs-12" style="text-align: center; padding: 25px; background-image: url('<%= request.getContextPath() %>/book-store/bg.jpg')">
 				
-		    	<form action="<%= request.getContextPath() %>/book-store/index.jsp" method="post">
+		    	<form action="<%= request.getContextPath() %>/login.do" method="post">
 		    	    <div class="page-header" style="margin-top: 10px">
 	    				<h2><font color="#FF9797">当当书店</font><br/>
 	    				<small style="color: #FFBB77">书籍是人类进步的阶梯</small></h2>

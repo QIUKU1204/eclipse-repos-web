@@ -180,13 +180,14 @@
 		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
 		    			<input type="password" name="password" class="form-control" placeholder="输入密码" value="${param.password}" aria-describedby="sizing-addon2">
 		    		</div>
-		    		<span id="nameErr" style="color:red">${requestScope.message2}</span><br>
+		    		<span id="passwordErr" style="color:red">${requestScope.message2}</span><br>
 		    		<div class="input-group">
 		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></span>
 		    			<input type="text" name="CHECK_CODE_PARAM_NAME" class="form-control" placeholder="输入验证码" value="${param.CHECK_CODE_PARAM_NAME}" aria-describedby="sizing-addon2">		
 		    		</div>
-		    		<span id="nameErr" style="color:red">${requestScope.message3}</span><br>
-		    		<button type="submit" class="btn btn-primary" style="width: 289px">注册</button><br/><br/>
+		    		<span id="checkcodeErr" style="color:red">${requestScope.message3}</span><br>
+		    		<button type="submit" class="btn btn-primary" style="width: 289px">注册</button><br/>
+		    		<span id="signupOk" style="color:green">${requestScope.message4}</span><br>
 		        	<!-- 生成验证码图片 -->
 		    		<a href="#" class="thumbnail">
 		    		    <img alt="" src="<%= request.getContextPath() %>/validateColorServlet"></a>

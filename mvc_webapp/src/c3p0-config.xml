@@ -4,7 +4,7 @@
   <named-config name="mvcapp"> 
     <property name="user">root</property>
     <!-- 120401是本地mysql的密码，root是aliyun服务器上mysql的密码 -->
-    <property name="password">120401</property>
+    <property name="password">root</property>
     <property name="driverClass">com.mysql.jdbc.Driver</property>
     <property name="jdbcUrl">jdbc:mysql://localhost:3306/mvc_database?characterEncoding=utf8</property>
     

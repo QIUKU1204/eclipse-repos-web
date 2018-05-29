@@ -171,7 +171,7 @@ public class UserServlet extends HttpServlet {
 			 * response.sendRedirect(request.getContextPath() + "/index.jsp");
 			 */
 
-			request.setAttribute("message3", "验证码错误！");
+			request.setAttribute("message3", "验证码错误!");
 			// 1. 重定向的 / 表示 http://服务器ip:端口/
 			// 2. 请求转发的 / 表示 http://服务器ip:端口/项目名
 			request.getRequestDispatcher("/book-store/signup.jsp").forward(request, response);
@@ -188,8 +188,9 @@ public class UserServlet extends HttpServlet {
 		else { // 如果不为空&&不重名
 			User user = new User(username, password);
 			userDAO.save(user);
+			request.setAttribute("message4", "注册成功, 快去登录吧!");
 			request.setAttribute("username", username);
-			request.getRequestDispatcher("/book-store/index.jsp").forward(request, response);
+			request.getRequestDispatcher("/book-store/signup.jsp").forward(request, response);
 		}			
 	}
 	
@@ -225,7 +226,7 @@ public class UserServlet extends HttpServlet {
 			request.getSession().setAttribute("flag", "false");
 			response.sendRedirect(request.getContextPath() + "/index.jsp");*/
 			
-			request.setAttribute("message3", "验证码错误！");
+			request.setAttribute("message3", "验证码错误!");
 			//1. 重定向的  / 表示 http://服务器ip:端口/
 		    //2. 请求转发的  / 表示 http://服务器ip:端口/项目名
 			request.getRequestDispatcher("/book-store/login.jsp").forward(request, response);
@@ -234,7 +235,7 @@ public class UserServlet extends HttpServlet {
 		
 		long count = userDAO.getCountWithName(username);
 		if (count == 0) {
-			request.setAttribute("message1", "用户名错误");
+			request.setAttribute("message1", "用户名错误!");
 			request.getRequestDispatcher("/book-store/login.jsp").forward(request, response);
 			return;
 		}
@@ -242,12 +243,12 @@ public class UserServlet extends HttpServlet {
 		User user = userDAO.get(username);
 		// 1. 对比 输入密码 和 数据库中的密码 是否一致
 		if (!password.equals(user.getPassword())) {
-			request.setAttribute("message2", "密码错误");
+			request.setAttribute("message2", "密码错误!");
 			request.getRequestDispatcher("/book-store/login.jsp").forward(request, response);
 			return;
 		}
 		
-		// 2. 把Customer数据集作为request属性放入请求中
+		// 2. 把 username 作为request属性放入请求中
 		request.setAttribute("username", user.getUsername());
 		System.out.println(user.getUsername());
 		// 3. 把请求转发到index.jsp(不能使用重定向)
