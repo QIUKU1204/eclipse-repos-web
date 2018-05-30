@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+
+  <servlet>
+    <servlet-name>userServlet</servlet-name>
+    <servlet-class>com.qiuku.bookstore.servlet.UserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>userServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <!-- InitServlet -->
+  <servlet>
+    <display-name>initServlet</display-name>
+    <servlet-name>initServlet</servlet-name>
+    <servlet-class>com.qiuku.bookstore.servlet.InitServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <!-- CheckLoginFilter -->
+  <filter>
+  	<filter-name>checkLoginFilter</filter-name>
+  	<filter-class>com.qiuku.bookstore.filter.CheckLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>checkLoginFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	<dispatcher>FORWARD</dispatcher>
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping> 
+  
+ <!-- CheckcodeFilter -->
+  <!-- <filter>
+  	<filter-name>checkcodeFilter</filter-name>
+  	<filter-class>com.qiuku.bookstore.filter.CheckcodeFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>checkcodeFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping> -->
+  <!-- UsernameFilter -->
+  <!-- <filter>
+  	<filter-name>usernameFilter</filter-name>
+  	<filter-class>com.qiuku.bookstore.filter.UsernameFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>usernameFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping> -->
+  <!-- PasswordFilter -->
+  <!-- <filter>
+  	<filter-name>passwordFilter</filter-name>
+  	<filter-class>com.qiuku.bookstore.filter.PasswordFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>passwordFilter</filter-name>
+  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping> -->
+</web-app>
