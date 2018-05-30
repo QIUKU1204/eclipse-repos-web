@@ -14,7 +14,7 @@
 
 ---
 
- [book-store](http://47.106.11.169:8080/book-store/book-store/login.jsp)
+ [book-store](http://47.106.11.169:8080/demo/book-store/login.jsp)
 
 ---
 
