@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.qiuku.bookstore.dao.UserDAO;
-import com.qiuku.bookstore.dao.impl.UserDAOJdbcImpl;
+import com.qiuku.bookstore.dao.impl.UserDAOImpl;
 import com.qiuku.bookstore.dao.impl.UserDAOXMLImpl;
 
 /**
@@ -28,7 +28,7 @@ public class UserDAOFactory {
 	}
 	
 	private UserDAOFactory(){ // 无参构造函数
-		daos.put("jdbc", new UserDAOJdbcImpl());
+		daos.put("jdbc", new UserDAOImpl());
 		daos.put("xml", new UserDAOXMLImpl());
 	}
 	

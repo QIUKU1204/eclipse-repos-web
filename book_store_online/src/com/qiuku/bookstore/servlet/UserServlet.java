@@ -10,27 +10,28 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.jasper.tagplugins.jstl.core.Out;
-
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import com.qiuku.bookstore.domain.User;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.qiuku.bookstore.dao.DAO;
+import com.qiuku.bookstore.service.UserService;
+import com.qiuku.bookstore.dao.BaseDAO;
 import com.qiuku.bookstore.dao.UserDAO;
 import com.qiuku.bookstore.dao.factory.UserDAOFactory;
-import com.qiuku.bookstore.dao.impl.UserDAOJdbcImpl;
+import com.qiuku.bookstore.dao.impl.UserDAOImpl;
 
 public class UserServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
 	// 静态成员 userDAOFactory 在内存中只有一个副本，由类本身和类的多个实例对象所共享;
-	// 0. UserDAOJdbcImpl类的实例对象在第一次请求 UserServlet 时创建一次即可;
+	// 0. UserDAOJdbcImpl 类的实例对象在第一次请求 UserServlet 时创建一次即可;
 	// ps: 该静态实例对象同时只能在一处被使用，否则调用对象的方法时会产生空指针异常;
-	private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();
-	// 1. UserDAOJdbcImpl类的实例对象在每次请求 UserServlet 时都要创建;
+	/*private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();*/
+	// 1. UserDAOJdbcImpl 类的实例对象在每次请求 UserServlet 时都要创建;
 	/*private UserDAO userDAO = new UserDAOJdbcImpl();*/
+	// 使用 service 层
+	private UserService userService = new UserService();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -162,7 +163,6 @@ public class UserServlet extends HttpServlet {
 			 * request.getSession().setAttribute("flag", "false");
 			 * response.sendRedirect(request.getContextPath() + "/index.jsp");
 			 */
-
 			request.setAttribute("message3", "验证码错误!");
 			// 1. 重定向的 / 表示 http://服务器ip:端口/
 			// 2. 请求转发的 / 表示 http://服务器ip:端口/项目名
@@ -171,7 +171,7 @@ public class UserServlet extends HttpServlet {
 		}
 		
 		
-		long count = userDAO.getCountWithName(username);
+		long count = userService.getCountWithName(username);
 		
 		if(count > 0) { // 如果重名
 			request.setAttribute("message1", "账号已被注册");
@@ -180,7 +180,7 @@ public class UserServlet extends HttpServlet {
 		}
 		else { // 如果不为空&&不重名
 			User user = new User(username, password);
-			userDAO.save(user);
+			userService.save(user);
 			request.setAttribute("message4", "注册成功, 快去登录吧!");
 			request.setAttribute("username", username);
 			request.getRequestDispatcher("/book-store/signup.jsp").forward(request, response);
@@ -227,14 +227,14 @@ public class UserServlet extends HttpServlet {
 			return;
 		}		
 		
-		long count = userDAO.getCountWithName(username);
+		long count = userService.getCountWithName(username);
 		if (count == 0) {
 			request.setAttribute("message1", "用户名错误!");
 			request.getRequestDispatcher("/book-store/login.jsp").forward(request, response);
 			return;
 		}
 		
-		User user = userDAO.get(username);
+		User user = userService.getUser(username);
 		// 1. 对比 输入密码 和 数据库中的密码 是否一致
 		if (!password.equals(user.getPassword())) {
 			request.setAttribute("message2", "密码错误!");
@@ -249,6 +249,20 @@ public class UserServlet extends HttpServlet {
 		request.getRequestDispatcher("/book-store/index.jsp").forward(request, response);
 	}
     
+	private void getTrades(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 获取 username 请求参数的值
+		String username = request.getParameter("username");
+		// 调用 UserService 的 getUserWithTrades方法 获取 User 对象：
+		// 要求 User 对象的 trades 是被装配好的, 并且每一个 Trade 对象的 items 也被装配好
+		User user = userService.getUserWithTrades(username);
+		if (user == null) {
+			response.sendRedirect(request.getServletPath() + "/error-1.jsp");
+			return;
+		}
+		request.setAttribute("user", user);
+		request.getRequestDispatcher("/WEB-INF/pages/trades.jsp").forward(request, response);
+	}
+	
     /*private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// delete
     	// System.out.println("delete");

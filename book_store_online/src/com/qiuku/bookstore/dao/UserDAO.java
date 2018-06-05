@@ -9,15 +9,20 @@ import com.qiuku.bookstore.domain.User;
  */
 public interface UserDAO {
 	
-	public List<User> getAll();
+	public List<User> getUsers();
 	
 	public void save(User user);
 	
-	public User get(String name);
+	/**
+	 * 根据用户名获取 User 对象
+	 * @param username
+	 * @return
+	 */
+	public User getUser(String username);
 	
-	public void delete(String name);
+	public void delete(String username);
 	
 	public void update(User user);
 	
-	public long getCountWithName(String name);
+	public long getCountWithName(String username);
 }

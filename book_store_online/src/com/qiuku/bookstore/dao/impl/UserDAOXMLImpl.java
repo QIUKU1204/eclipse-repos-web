@@ -14,7 +14,7 @@ public class UserDAOXMLImpl implements UserDAO {
 
 	
 	@Override
-	public List<User> getAll() {
+	public List<User> getUsers() {
 		System.out.println("getAll");
 		return null;
 	}
@@ -28,7 +28,7 @@ public class UserDAOXMLImpl implements UserDAO {
 
 	
 	@Override
-	public User get(String name) {
+	public User getUser(String name) {
 		System.out.println("get");
 		return null;
 	}

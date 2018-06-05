@@ -72,19 +72,19 @@
  
  5. String.trim()方法remove字符串的首尾空白字符 (leading and trailing whitespace);
  
- 6. 利用Cookie实现自动登录;
+ 6. 利用 Cookie 实现自动登录;
  
- 7. 利用Cookie显示最近浏览商品;
+ 7. 利用 Cookie 显示最近浏览商品;
  
- 8. 测试Cookie的作用范围和路径问题;
+ 8. 测试 Cookie 的作用范围和路径问题;
  
- 9. 关于HttpSession对象的生命周期;
+ 9. 关于 HttpSession 对象的生命周期;
  
- 10. 测试HttpSession接口的常用方法;
+ 10. 测试 HttpSession 接口的常用方法;
  
- 11. 利用URL重写技术实现Session会话追踪管理;
+ 11. 使用 UR L重写技术实现 Session 会话追踪管理;
  
- 12. 利用Session实现简易购物车功能: 三个jsp页面 + 两个Servlet + 一个实体类 ; 利用HttpSession对象在请求重定向的情况下传递各种参数与属性;
+ 12. 使用 Session 实现简易购物车功能: 三个jsp页面 + 两个Servlet + 一个实体类 ; 使用 HttpSession 对象在请求重定向的情况下传递各种参数与属性;
  
  13. Web应用中的绝对路径与相对路径问题: 写相对路径可能会有问题, 写绝对路径则肯定没有问题; 在开发中建议使用绝对路径而不是相对路径; request.getContextPath();
  

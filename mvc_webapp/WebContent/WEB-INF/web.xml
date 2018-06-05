@@ -39,15 +39,15 @@
   </filter-mapping> 
   
  <!-- CheckcodeFilter -->
-  <!-- <filter>
+ <!--  <filter>
   	<filter-name>checkcodeFilter</filter-name>
   	<filter-class>com.qiuku.mvcapp.filter.CheckcodeFilter</filter-class>
   </filter>
   <filter-mapping>
   	<filter-name>checkcodeFilter</filter-name>
-  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<url-pattern>/login.do</url-pattern>
   	<dispatcher>REQUEST</dispatcher>
-  	
+  	<dispatcher>FORWORD</dispatcher>
   	<dispatcher>INCLUDE</dispatcher>
   </filter-mapping> -->
   <!-- UsernameFilter -->
@@ -57,9 +57,9 @@
   </filter>
   <filter-mapping>
   	<filter-name>usernameFilter</filter-name>
-  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<url-pattern>/login.do</url-pattern>
   	<dispatcher>REQUEST</dispatcher>
-  	
+  	<dispatcher>FORWORD</dispatcher>
   	<dispatcher>INCLUDE</dispatcher>
   </filter-mapping> -->
   <!-- PasswordFilter -->
@@ -69,9 +69,10 @@
   </filter>
   <filter-mapping>
   	<filter-name>passwordFilter</filter-name>
-  	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<url-pattern>/login.do</url-pattern>
   	<dispatcher>REQUEST</dispatcher>
-  	
+  	<dispatcher>FORWORD</dispatcher>
   	<dispatcher>INCLUDE</dispatcher>
   </filter-mapping> -->
+  
 </web-app>

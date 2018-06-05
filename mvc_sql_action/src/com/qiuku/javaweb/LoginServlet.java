@@ -18,34 +18,27 @@ import javax.servlet.ServletResponse;
 public class LoginServlet implements Servlet {
 
 
-	public void destroy() {
-		// TODO Auto-generated method stub
-
-	}
-
-
 	public ServletConfig getServletConfig() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	public String getServletInfo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private ServletConfig servletConfig;
-	
+	private ServletConfig servletConfig;	
 	
 	public void init(ServletConfig servletConfig) throws ServletException {
 		// TODO Auto-generated method stub
+		System.out.println("init...");
         this.servletConfig = servletConfig;
 	}
-
 	
 	public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("service...");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
@@ -61,6 +54,11 @@ public class LoginServlet implements Servlet {
         }
         
 	}
+	
+	public void destroy() {
+		// TODO Auto-generated method stub
+		System.out.println("destroy...");
+	}	
 	
 	public LoginServlet() {
 		System.out.println("LoginServlet's constructor.");

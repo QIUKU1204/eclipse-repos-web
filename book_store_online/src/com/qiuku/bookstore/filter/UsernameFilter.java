@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 
 import com.qiuku.bookstore.dao.UserDAO;
 import com.qiuku.bookstore.dao.factory.UserDAOFactory;
-import com.qiuku.bookstore.dao.impl.UserDAOJdbcImpl;
+import com.qiuku.bookstore.dao.impl.UserDAOImpl;
 import com.qiuku.bookstore.domain.User;
 
 
@@ -20,7 +20,7 @@ public class UsernameFilter implements Filter {
 	
 	// ps: 该静态实例对象同时只能在一处被使用，否则调用对象的方法时会产生空指针异常
 	// private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();
-    private UserDAO userDAO2 = new UserDAOJdbcImpl();
+    private UserDAO userDAO2 = new UserDAOImpl();
 	
 	public void destroy() {
 		System.out.println("destroy...");

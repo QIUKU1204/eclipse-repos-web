@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 
 import com.qiuku.bookstore.dao.UserDAO;
 import com.qiuku.bookstore.dao.factory.UserDAOFactory;
-import com.qiuku.bookstore.dao.impl.UserDAOJdbcImpl;
+import com.qiuku.bookstore.dao.impl.UserDAOImpl;
 import com.qiuku.bookstore.domain.User;
 
 
@@ -20,7 +20,7 @@ public class PasswordFilter implements Filter {
 
 	// ps: 该静态实例对象同时只能在一处被使用，否则调用对象的方法时会产生空指针异常
 	// private UserDAO userDAO2 = UserDAOFactory.getInstance().getUserDAO();
-	private UserDAO userDAO2 = new UserDAOJdbcImpl();
+	private UserDAO userDAO2 = new UserDAOImpl();
 	
 	public void destroy() {
 		System.out.println("destroy...");
@@ -38,7 +38,7 @@ public class PasswordFilter implements Filter {
 			request.getRequestDispatcher("/book-store/login.jsp").forward(request, response);
 			return;
 		}
-		User user = userDAO2.get(username);
+		User user = userDAO2.getUser(username);
 		// 1. 对比 输入密码 和 数据库中的密码 是否一致
 		if (!password.equals(user.getPassword())) {
 			request.setAttribute("message2", "密码错误");

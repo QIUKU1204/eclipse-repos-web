@@ -85,3 +85,12 @@
     - 静态代码块;
     - PS: 类的静态实例对象同时只能在一处被使用，多处使用可能产生空指针异常;
      
+ 6. 将字符串 String 转换为整型 Int 的两种方法
+    - int i = Integer.parseInt(String s);
+    - int i = Integer.valueOf(s).intValue();
+    
+ 7. 将整数 int 转换成字符串 String 的三种方法
+    - String s = "" + i;
+	- String s = String.valueOf(i);
+	- String s = Integer.toString(i);
+	

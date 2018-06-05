@@ -3,18 +3,19 @@ package com.qiuku.bookstore.dao.impl;
 import java.util.List;
 
 import com.qiuku.bookstore.dao.UserDAO;
-import com.qiuku.bookstore.dao.DAO;
+import com.qiuku.bookstore.dao.BaseDAO;
+
 import com.qiuku.bookstore.domain.User;
 
 /**
  * @TODO: 实现类
  * @author:QIUKU
  */
-public class UserDAOJdbcImpl extends DAO<User> implements UserDAO{
+public class UserDAOImpl extends BaseDAO<User> implements UserDAO{
 	
 	@Override
-	public List<User> getAll() {
-		String sql = "SELECT Id,username,password FROM users";
+	public List<User> getUsers() {
+		String sql = "SELECT userId,username,password,accountId FROM users";
 		return getForList(sql);
 	}
 
@@ -25,17 +26,22 @@ public class UserDAOJdbcImpl extends DAO<User> implements UserDAO{
 		update(sql, user.getUsername(), user.getPassword());
 		
 	}
-
+	
+	/**
+	 * 根据用户名获取 User 对象
+	 * @param username
+	 * @return
+	 */
 	@Override
-	public User get(String name) {
-		String sql = "SELECT Id,username,password FROM users WHERE username = ?";
-		return get(sql, name);
+	public User getUser(String username) {
+		String sql = "SELECT username,password FROM users WHERE username = ?";
+		return get(sql, username);
 	}
 
 	@Override
-	public void delete(String name) {
+	public void delete(String username) {
 		String sql ="DELETE FROM users WHERE username = ?";
-		update(sql, name);
+		update(sql, username);
 	}
 
 	@Override
@@ -46,9 +52,9 @@ public class UserDAOJdbcImpl extends DAO<User> implements UserDAO{
 
 	
 	@Override
-	public long getCountWithName(String name) {
-		String sql = "SELECT count(Id) FROM users WHERE username = ?";
-		return getForValue(sql, name);
+	public long getCountWithName(String username) {
+		String sql = "SELECT count(userId) FROM users WHERE username = ?";
+		return getForValue(sql, username);
 	}
 
 }

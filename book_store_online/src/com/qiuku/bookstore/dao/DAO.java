@@ -1,125 +1,67 @@
 package com.qiuku.bookstore.dao;
 
-import com.qiuku.bookstore.db.JdbcUtils;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.sql.Connection;
 import java.util.List;
-//dbUtils
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
- * @TODO:封装了基本的CRUD方法，供子类继承使用;
- * 当前DAO使用 JdbcUtils 工具类获取数据库连接;
- * 当前DAO使用  dbutils 工具类执行数据库基本操作: QueryRunner.query(), QueryRunner.update(), etc.
- * @param <T>: 当前DAO处理的实体类的类型
+ * @TODO:DAO接口
+ * 定义了基本的CRUD方法以操作数据库
+ * 具体由BaseDAO提供实现
+ * @param <T>: DAO实际操作的实体类的类型
  * @author:QIUKU
  */
-public class DAO<T> {
+public interface DAO<T> {
 	
-	/// ???
-	private QueryRunner queryRunner = new QueryRunner();
-	
-	private Class<T> clazz;
+	public static final int ID = 10;
+	String SSS = "";
 
-	public DAO() {
-		Type superClass = getClass().getGenericSuperclass();
-		
-		if(superClass instanceof ParameterizedType) {
-			ParameterizedType parameterizedType = (ParameterizedType)superClass;
-			
-			Type [] typeArgs = parameterizedType.getActualTypeArguments();
-			if(typeArgs != null && typeArgs.length > 0 ) {
-				if(typeArgs[0] instanceof Class) {
-					clazz = (Class<T>)typeArgs[0];
-				}
-			}
-		}
-	}
+	/**
+	 * 执行单条记录的查询操作, 返回与记录对应的类的一个对象
+	 * @param sql: 待执行的 SQL 语句
+	 * @param args: 填充占位符的可变参数
+	 * @return: 与记录对应的类的一个对象
+	 */
+	public abstract T get(String sql, Object... args);
 	
 	
 	/**
-	 * @TODO: 返回某一个字段的值
-	 * 例如返回某一条记录的customerName，或返回数据表中的记录个数等
-	 * @param sql
-	 * @param args
+	 * 执行多条记录的查询操作, 返回与记录对应的类的一个 List
+	 * @param sql: 待执行的 SQL 语句
+	 * @param args: 填充占位符的可变参数
+	 * @return: 与记录对应的类的一个 List
 	 */
-	public <E> E getForValue(String sql,Object ...args) {
-		Connection connection = null;
-		try {
-			connection = JdbcUtils.getConnection();
-			// TODO query()
-			return (E) queryRunner.query(connection,sql,new ScalarHandler(),args);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			JdbcUtils.releaseConnection(connection);
-		}
-		return null;
-	}
+	List<T> getForList(String sql, Object... args);
 	
 	
 	/**
-	 * @TODO: 返回T所对应的List
-	 * @param sql
-	 * @param args
+	 * 执行一个属性或值的查询操作, 例如查询某一条记录的一个字段, 或查询某个统计信息, 返回要查询的值
+	 * @param sql: 待执行的 SQL 语句
+	 * @param args: 填充占位符的可变参数
+	 * @return: 执行一个属性或值的查询操作, 例如查询某一条记录的一个字段, 或查询某个统计信息, 返回要查询的值
 	 */
-	public List<T> getForList(String sql,Object ...args){
-		Connection connection = null;
-		try {
-			connection = JdbcUtils.getConnection();
-			// TODO query()
-			return queryRunner.query(connection,sql,new BeanListHandler<>(clazz),args);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			JdbcUtils.releaseConnection(connection);
-		}
-		return null;
-	}
+	<E> E getForValue(String sql, Object... args);
 	
 	
 	/**
-	 * @TODO: 返回T所对应的一个实例对象
-	 * @param sql
-	 * @param args
+	 * 执行 UPDATE 操作, 包括 INSERT(但没有返回值), UPDATE, DELETE
+	 * @param sql: 待执行的 SQL 语句
+	 * @param args: 填充占位符的可变参数
 	 */
-	public T get(String sql,Object ...args) {
-		Connection connection = null;
-		try {
-			connection = JdbcUtils.getConnection();
-			// TODO query()
-			return queryRunner.query(connection,sql,new BeanHandler<>(clazz),args);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			JdbcUtils.releaseConnection(connection);
-		}
-		return null;
-	}
+	void update(String sql, Object... args);
 	
 	
 	/**
-	 * @TODO:该方法封装了INSERT、DELETE、UPDATE操作
-	 * @param sql: SQL语句
-	 * @param args: 填充SQL语句的占位符
+	 * 执行 INSERT 操作, 返回插入后的记录的 ID
+	 * @param sql: 待执行的 SQL 语句
+	 * @param args: 填充占位符的可变参数
+	 * @return: 插入新记录的 id
 	 */
-	public void update(String sql,Object ...args) {
-		Connection connection = null;
-		try {
-			connection = JdbcUtils.getConnection();
-			// TODO update()
-			queryRunner.update(connection,sql,args);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			JdbcUtils.releaseConnection(connection);
-		}
-		
-	}
-
-
+	long insert(String sql, Object... args);
+	
+	
+	/**
+	 * 执行批量更新操作
+	 * @param sql: 待执行的 SQL 语句
+	 * @param args: 填充占位符的可变参数
+	 */
+	public void batch(String sql, Object[]... params);
 }
