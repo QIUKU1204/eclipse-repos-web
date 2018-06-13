@@ -23,7 +23,7 @@
 
 ### 部署
 
-[book-store](http://47.106.11.169:8080/demo/book-store/login.jsp)
+[book-store](http://47.106.11.169:8080/demo/index.jsp)
  
  
 ### 更新
