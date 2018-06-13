@@ -61,6 +61,8 @@
       - 一般情况下，API中写了throws的Exception都不是RuntimeException;  
    
 ### note
+ 
+ 0. 简单工厂模式;
 
  1. 在index.jsp页面单击Query后，应使查询条件停留在对应的输入文本框内(回显);
  

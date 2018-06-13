@@ -1,6 +1,8 @@
 package com.qiuku.bookstore.dao;
 
 import com.qiuku.bookstore.db.JDBCUtils;
+import com.qiuku.bookstore.web.ConnectionContext;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Connection;
@@ -97,13 +99,17 @@ public class BaseDAO<T> implements DAO<T> {
  	public T get(String sql, Object... args) {
 		Connection connection = null;
 		try {
-			connection = JDBCUtils.getConnection();
+			// 获取数据库连接的两种方法
+			// 1. 每个数据库操作都单独从 JDBCUtils 获取 connection 并最终释放;
+			/*connection = JDBCUtils.getConnection();*/
+			// 2. 一次请求涉及的所有数据库操作共用一个 connection , 从当前线程中获取;
+			connection = ConnectionContext.getInstance().get();
 			// TODO query()
 			return queryRunner.query(connection, sql, new BeanHandler<>(clazz), args);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			JDBCUtils.releaseConnection(connection);
+		} finally { // 从当前线程中获取 connection 时删除 finally 子句
+			// JDBCUtils.releaseConnection(connection);
 		}
 		return null;
 	}
@@ -118,13 +124,14 @@ public class BaseDAO<T> implements DAO<T> {
 	public List<T> getForList(String sql, Object... args) {
 		Connection connection = null;
 		try {
-			connection = JDBCUtils.getConnection();
+			// connection = JDBCUtils.getConnection();
+			connection = ConnectionContext.getInstance().get();
 			// TODO query()
 			return queryRunner.query(connection, sql, new BeanListHandler<>(clazz), args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCUtils.releaseConnection(connection);
+			// JDBCUtils.releaseConnection(connection);
 		}
 		return null;
 	}
@@ -139,13 +146,14 @@ public class BaseDAO<T> implements DAO<T> {
 	public <E> E getForValue(String sql, Object... args) {
 		Connection connection = null;
 		try {
-			connection = JDBCUtils.getConnection();
+			// connection = JDBCUtils.getConnection();
+			connection = ConnectionContext.getInstance().get();
 			// TODO query()
 			return (E) queryRunner.query(connection, sql, new ScalarHandler(), args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCUtils.releaseConnection(connection);
+			// JDBCUtils.releaseConnection(connection);
 		}
 		return null;
 	}
@@ -160,13 +168,14 @@ public class BaseDAO<T> implements DAO<T> {
 	public void update(String sql, Object... args) {
 		Connection connection = null;
 		try {
-			connection = JDBCUtils.getConnection();
+			// connection = JDBCUtils.getConnection();
+			connection = ConnectionContext.getInstance().get();
 			// TODO update()
 			queryRunner.update(connection, sql, args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCUtils.releaseConnection(connection);
+			// JDBCUtils.releaseConnection(connection);
 		}
 
 	}
@@ -187,7 +196,8 @@ public class BaseDAO<T> implements DAO<T> {
 		ResultSet resultSet = null;
 
 		try {
-			connection = JDBCUtils.getConnection();
+			// connection = JDBCUtils.getConnection();
+			connection = ConnectionContext.getInstance().get();
 			preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			if (args != null) {
@@ -207,8 +217,10 @@ public class BaseDAO<T> implements DAO<T> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			// 释放数据库连接
 			// JDBCUtils.releaseConnection(connection);
-			JDBCUtils.release(resultSet, preparedStatement);
+			// 关闭结果集和声明对象
+			JDBCUtils.closeRS(resultSet, preparedStatement);
 		}
 
 		return id;
@@ -224,12 +236,13 @@ public class BaseDAO<T> implements DAO<T> {
 	public void batch(String sql, Object[]... params) {
 		Connection connection = null;	
 		try {
-			connection = JDBCUtils.getConnection();
+			// connection = JDBCUtils.getConnection();
+			connection = ConnectionContext.getInstance().get();
 			queryRunner.batch(connection, sql, params);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			JDBCUtils.releaseConnection(connection);
+			// JDBCUtils.releaseConnection(connection);
 		}
 		
 	}

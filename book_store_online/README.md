@@ -31,7 +31,8 @@
  - 2018-5-20: 完成网络书店的登录与注册功能;
  - 2018-5-26: 使用Filter过滤器实现 Login-Check 功能;
  - 2018-5-30: 完成查看图书信息功能;
-
+ - 2018-6-13: 完成主体功能;
+ - 2018-6-xx: 增加管理员后台; 完善个人信息;
 
 ### issues
 
@@ -68,6 +69,8 @@
    
 ### note
 
+ 0. 简单工厂模式;
+ 
  1. 空字符串是""，会创建一个对象，有内存空间；而null，不会创建对象，没有内存空间
  
  2. String.trim()方法 remove 字符串的首尾空白字符 (leading and trailing whitespace);
@@ -93,4 +96,18 @@
     - String s = "" + i;
 	- String s = String.valueOf(i);
 	- String s = Integer.toString(i);
+	
+ 8. ThreadLocal 的原理:
+ 	- ThreadLocal 是如何做到为每一个线程维护 变量副本 的呢?
+ 	- 实现思路: 在ThreadLocal类中有一个Map, 用于存储每一个线程的变量副本, Map中元素的键为  线程对象, 而值对应线程的变量副本;
+
+ 9. 关于泛型 <T> 
+ 
+ 10. 关于事务 transaction
+     - `connection.setAutoCommit(boolean);`
+     - connection 的所有SQL语句将作为一个独立的事务被执行和提交;
+     - `connection.commit();`
+     - 使上一次commit/rollback以来的所有changes生效;
+     - `connection.rollback();`
+     - commit和rollback方法都只能在auto-commit模式被禁用时使用;
 	

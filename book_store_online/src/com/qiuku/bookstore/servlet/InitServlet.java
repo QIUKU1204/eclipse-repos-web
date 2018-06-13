@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.qiuku.bookstore.dao.factory.UserDAOFactory;
-
+/**
+ * @TODO: InitServlet用于在Tomcat启动时, 设置UserDAOFactory实例的type属性的值;
+ * @author:QIUKU
+ */
 public class InitServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

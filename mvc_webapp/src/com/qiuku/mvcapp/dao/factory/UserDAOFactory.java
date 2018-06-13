@@ -8,7 +8,8 @@ import com.qiuku.mvcapp.dao.impl.UserDAOJdbcImpl;
 import com.qiuku.mvcapp.dao.impl.UserDAOXMLImpl;
 
 /**
- * @TODO:CustomerDAOFactory.java
+ * @TODO: UserDAO/UserDAOImpl 对应的 工厂类
+ * 使用工厂模式, 以降低 UserDAO/UserDAOImpl 与 UserServlet 之间的耦合性;
  * @author:QIUKU
  */
 public class UserDAOFactory {

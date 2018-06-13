@@ -67,9 +67,9 @@ public class UserService {
 					for(TradeItem item: tradeItemSet){
 						item.setBook(bookDAO.getBook(item.getBookId())); 
 					}
-					// TODO 为 Trade 对象设置其 items 属性
+					// TODO 为 Trade 对象设置其 items 属性 及 其他属性
 					if(tradeItemSet != null && tradeItemSet.size() != 0){
-						trade.setItems(tradeItemSet);						
+						trade.setItems(tradeItemSet);
 					}
 				}
 				
@@ -87,4 +87,22 @@ public class UserService {
 		return user;
 	}
 	
+	/**
+	 * 根据 tradeId 获取对应的 Trade 对象
+	 */
+	public Trade getTrade(Integer tradeId) {
+		Trade trade = tradeDAO.geTrade(tradeId);
+		Set<TradeItem> tradeItemSet = tradeItemDAO.getTradeItemsWithTradeId(tradeId);
+		if(tradeItemSet != null){
+			// TODO 为 TradeItem 对象设置其 book 属性
+			for(TradeItem item: tradeItemSet){
+				item.setBook(bookDAO.getBook(item.getBookId())); 
+			}
+			// TODO 为 Trade 对象设置其 items 属性 及 其他属性
+			if(tradeItemSet != null && tradeItemSet.size() != 0){
+				trade.setItems(tradeItemSet);
+			}
+		}
+		return trade;
+	}
 }

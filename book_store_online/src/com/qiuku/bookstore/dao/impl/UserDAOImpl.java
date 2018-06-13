@@ -34,7 +34,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO{
 	 */
 	@Override
 	public User getUser(String username) {
-		String sql = "SELECT username,password FROM users WHERE username = ?";
+		String sql = "SELECT userId,username,password FROM users WHERE username = ?";
 		return get(sql, username);
 	}
 

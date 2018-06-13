@@ -19,4 +19,8 @@ public interface TradeDAO {
 	 */
 	public abstract Set<Trade> getTradesWithUserId(Integer userId);
 
+	/**
+	 * 根据 tradeId 获取对应的 Trade 对象
+	 */
+	public abstract Trade geTrade(Integer tradeId);
 }

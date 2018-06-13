@@ -24,4 +24,13 @@ public class TradeDAOImpl extends BaseDAO<Trade> implements TradeDAO {
 		return tradeSet;
 	}
 
+
+	@Override
+	public Trade geTrade(Integer tradeId) {
+		String sql = "SELECT tradeId, userId, tradeTime FROM trades " +
+					"WHERE tradeId = ? ";
+		Trade trade = get(sql, tradeId);
+		return trade;
+	}
+
 }

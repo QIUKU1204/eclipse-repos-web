@@ -53,6 +53,7 @@ public class ShoppingCart {
 	}
 	
 	/**
+	 * TODO ${ sessionScope.ShoppingCart.totalMoney }
 	 * 获取购物车中所有的商品的总的钱数
 	 * @return
 	 */
@@ -65,14 +66,7 @@ public class ShoppingCart {
 	}
 	
 	/**
-	 * 获取购物车中的所有的 ShoppingCartItem 组成的集合
-	 * @return
-	 */
-	public Collection<ShoppingCartItem> getItems(){
-		return bookShoppingCart.values();
-	}
-	
-	/**
+	 * TODO ${sessionScope.ShoppingCart.bookNumber }
 	 * 返回购物车中商品的总数量
 	 * @return
 	 */
@@ -82,6 +76,14 @@ public class ShoppingCart {
 			total += sci.getQuantity();
 		}	
 		return total;
+	}
+	
+	/**
+	 * 获取购物车中的所有的 ShoppingCartItem 组成的集合
+	 * @return
+	 */
+	public Collection<ShoppingCartItem> getItems(){
+		return bookShoppingCart.values();
 	}
 	
 	/**

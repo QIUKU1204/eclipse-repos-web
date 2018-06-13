@@ -3,32 +3,23 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" import="com.qiuku.bookstore.domain.User" %>
 <html>
-<head>
-    
+<head>   
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
 	<title>用户登录</title>
-    
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    
-    <!-- <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script> -->
-    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,600" />
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.bootcss.com/flat-ui/2.3.0/css/flat-ui.min.css"/>
+	<script type="text/javascript" src="scripts/jquery-1.7.2.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/flat-ui/2.3.0/js/flat-ui.min.js"></script>
     <script type="text/javascript">
     	$(function () {
   	  		$('[data-toggle="popover"]').popover()
 		})
 	</script>
-
     <style>
         html,body {
-            /* background-image: url("../images/leaf.jpg");
-            background-size: cover; */
-            /* background-color: #84C1FF; */
             font-family: 'Microsoft YaHei', sans-serif;
             font-weight: 100;
             width:100%;
@@ -37,11 +28,6 @@
             padding: 0;
             color: #333;
         }
-
-        p {
-            color: tomato;
-        }
-
         h1, h2, h3, h4, h5, h6 {
             font-weight: 100;
             align-content: center;
@@ -52,9 +38,7 @@
 </head>
 <body>
 
-    <% request.setCharacterEncoding("UTF-8"); %>
-
-<canvas id="Mycanvas"></canvas>
+<canvas id="Mycanvas" width="100%" height="100%"></canvas>
 <script type="text/javascript">
 	//定义画布宽高和生成点的个数
 	  var WIDTH = window.innerWidth;
@@ -161,16 +145,17 @@
 	  }
 </script>
 
-<div class="container" style="position: absolute; left: 300px; right: 300px; top: 80px">
+<div class="container" style="position: absolute;left: 300px; right: 300px; top: 80px">
 	    <div class="row" style="margin-left: 200px; padding-left: 200px; margin-right: 200px; padding-right: 200px">
-		    <div class="col-xs-12" style="text-align: center; padding: 25px; background-image: url('<%= request.getContextPath() %>/book-store/bg.jpg')">
+		    <div class="col-md-12" style="text-align: center; padding: 25px; 
+		    	background-image: url('<%= request.getContextPath() %>/book-store/bg.jpg')">
 				
-		    	<form action="<%= request.getContextPath() %>/login.do" method="post">
+		    	<form action="<%= request.getContextPath() %>/userServlet?method=login" method="post">
 		    	    <div class="page-header" style="margin-top: 10px">
-	    				<h2><font color="#FF9797">当当书店</font><br/>
-	    				<small style="color: #FFBB77">书籍是人类进步的阶梯</small></h2>
+	    				<h3><font color="#FF9797">当当书店</font><br/>
+	    				<small style="color: #FFBB77">书籍是人类进步的阶梯</small></h3>
 					</div>
-  					<h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户登录</h4><br/>
+  					<h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户登录</h5><br/>
 		    		<div class="input-group">
 		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 		    			<input type="text" name="username" class="form-control" placeholder="输入用户名" value="${param.username}" aria-describedby="sizing-addon2">		
@@ -197,9 +182,8 @@
 		        </form>
 		  
 	    	</div> 
-	    </div>
-</div>
-	
+
+	</div></div>
 	
 </body>
 </html>

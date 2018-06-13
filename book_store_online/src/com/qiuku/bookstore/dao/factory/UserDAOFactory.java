@@ -8,14 +8,16 @@ import com.qiuku.bookstore.dao.impl.UserDAOImpl;
 import com.qiuku.bookstore.dao.impl.UserDAOXMLImpl;
 
 /**
- * @TODO:CustomerDAOFactory.java
+ * @TODO: UserDAO/UserDAOImpl 对应的 工厂类
+ * 使用工厂模式, 以降低 UserDAO/UserDAOImpl 与 UserServlet 之间的耦合性;
  * @author:QIUKU
  */
 public class UserDAOFactory {
 	// TODO HashMap 集合类
 	private Map<String, UserDAO> daos = new HashMap<String,UserDAO>();
 	
-	private static UserDAOFactory userDAOFactory = new UserDAOFactory(); // 对应下面的无参构造函数
+	// ps: 静态实例对象userDAOFactory同时只能在一处被使用，否则调用对象的方法时会产生空指针异常;
+	private static UserDAOFactory userDAOFactory = new UserDAOFactory(); 
 	
 	public static UserDAOFactory getInstance() {
 		return userDAOFactory;
@@ -27,7 +29,7 @@ public class UserDAOFactory {
 		this.type = type;
 	}
 	
-	private UserDAOFactory(){ // 无参构造函数
+	private UserDAOFactory(){ // 私有无参构造函数
 		daos.put("jdbc", new UserDAOImpl());
 		daos.put("xml", new UserDAOXMLImpl());
 	}

@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.jasper.tagplugins.jstl.core.Out;
 import com.sun.org.apache.bcel.internal.generic.NEW;
-
+import com.qiuku.bookstore.domain.Trade;
 import com.qiuku.bookstore.domain.User;
 import com.qiuku.bookstore.service.UserService;
+
 import com.qiuku.bookstore.dao.BaseDAO;
 import com.qiuku.bookstore.dao.UserDAO;
 import com.qiuku.bookstore.dao.factory.UserDAOFactory;
@@ -24,37 +25,35 @@ public class UserServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	// 静态成员 userDAOFactory 在内存中只有一个副本，由类本身和类的多个实例对象所共享;
-	// 0. UserDAOJdbcImpl 类的实例对象在第一次请求 UserServlet 时创建一次即可;
-	// ps: 该静态实例对象同时只能在一处被使用，否则调用对象的方法时会产生空指针异常;
+	// 1. Servlet直接调用DAO层的方法(耦合性高)
+	// UserDAOJdbcImpl 的实例对象在每次请求 UserServlet 时都要创建;
+	/*private UserDAO userDAO = new UserDAOImpl();*/
+	// 2. 使用工厂模式与工厂类(耦合性低)
+	// UserDAOJdbcImpl 的实例对象在第一次请求 UserServlet 时创建一次即可;
 	/*private UserDAO userDAO = UserDAOFactory.getInstance().getUserDAO();*/
-	// 1. UserDAOJdbcImpl 类的实例对象在每次请求 UserServlet 时都要创建;
-	/*private UserDAO userDAO = new UserDAOJdbcImpl();*/
-	// 使用 service 层
+	// 3. 使用 service 层
 	private UserService userService = new UserService();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		// 1.获取ServletPath: /edit.do 或 /delete.do
-		request.setCharacterEncoding("UTF-8");
-		String servletPath = request.getServletPath();
-		// 2.去除 / 和 .do, 得到edit或delete这样的字符串
-		String methodName = servletPath.substring(1);
-		methodName = methodName.substring(0,methodName.length()-3);
-		
+		// 使用EncodingFilter替代
+		/*request.setCharacterEncoding("UTF-8");*/
+		String methodName = request.getParameter("method");
+		System.out.println(methodName);
 		try {
 			// 3.利用反射技术获取methodName对应的方法
 			Method method = getClass().getDeclaredMethod(methodName,HttpServletRequest.class,HttpServletResponse.class);
 			// 4.利用反射调用对应的方法
-			method.invoke(this, request,response);
+			method.invoke(this, request, response);
 		} catch (Exception e) {
 			// e.printStackTrace();
 			// java.lang.reflect.InvocationTargetException
 			System.out.println(e);
-			response.sendRedirect(request.getContextPath() + "/WEB-INF/error_404.jsp");
+			// WEB-INF目录下的资源只能通过请求转发访问到, 重定向无法访问
+			// response.sendRedirect(request.getContextPath() + "/WEB-INF/error_404.jsp");
+			request.getRequestDispatcher("/WEB-INF/error_404.jsp").forward(request, response);
 		}
 		
 	}
@@ -132,7 +131,6 @@ public class UserServlet extends HttpServlet {
 	*/
 	
 	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String paramCode = request.getParameter("CHECK_CODE_PARAM_NAME");
@@ -170,9 +168,7 @@ public class UserServlet extends HttpServlet {
 			return;
 		}
 		
-		
 		long count = userService.getCountWithName(username);
-		
 		if(count > 0) { // 如果重名
 			request.setAttribute("message1", "账号已被注册");
 			request.getRequestDispatcher("/book-store/signup.jsp").forward(request, response);
@@ -252,17 +248,38 @@ public class UserServlet extends HttpServlet {
 	private void getTrades(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 获取 username 请求参数的值
 		String username = request.getParameter("username");
+		if (username == "") {
+			request.getRequestDispatcher("/pages/trades.jsp").forward(request, response);
+			return;
+		}
 		// 调用 UserService 的 getUserWithTrades方法 获取 User 对象：
 		// 要求 User 对象的 trades 是被装配好的, 并且每一个 Trade 对象的 items 也被装配好
+		System.out.println("111111111");
 		User user = userService.getUserWithTrades(username);
+		System.out.println("222222222");
 		if (user == null) {
-			response.sendRedirect(request.getServletPath() + "/error-1.jsp");
+			request.getRequestDispatcher("/WEB-INF/error_404.jsp").forward(request, response);
 			return;
 		}
 		request.setAttribute("user", user);
-		request.getRequestDispatcher("/WEB-INF/pages/trades.jsp").forward(request, response);
+		request.getRequestDispatcher("/pages/trades.jsp").forward(request, response);
 	}
 	
+	private void getTrade(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 获取 username 请求参数的值
+		String tradeId = request.getParameter("tradeId");
+		// 调用 UserService 的 getUserWithTrades方法 获取 User 对象：
+		// 要求 User 对象的 trades 是被装配好的, 并且每一个 Trade 对象的 items 也被装配好
+		System.out.println("111111111");
+		Trade trade = userService.getTrade(Integer.parseInt(tradeId));
+		System.out.println("222222222");
+		if (trade == null) {
+			request.getRequestDispatcher("/WEB-INF/error_404.jsp").forward(request, response);
+			return;
+		}
+		request.setAttribute("trade", trade);
+		request.getRequestDispatcher("/pages/trade.jsp").forward(request, response);
+	}
     /*private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// delete
     	// System.out.println("delete");

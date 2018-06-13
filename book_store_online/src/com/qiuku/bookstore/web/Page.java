@@ -11,8 +11,8 @@ public class Page<T> {
 	// 当前页需要显示的Book List
 	private List<T> list;
 	// 每页显示多少条记录
-	private int pageSize = 3;
-	// 总记录数
+	private int pageSize = 4;
+	// 符合条件的总记录数
 	private long totalItemNumber;
 	
 	

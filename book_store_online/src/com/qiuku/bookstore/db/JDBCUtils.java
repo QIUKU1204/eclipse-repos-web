@@ -59,10 +59,10 @@ public class JDBCUtils {
 	}
 	
 	/**
-	 * @TODO: 释放Connection连接
+	 * @TODO: 关闭结果集和声明对象
 	 */
-	public static void release(ResultSet rs, Statement statement) {
-		try {
+	public static void closeRS(ResultSet rs, Statement statement) {
+		try { // 关闭结果集
 			if(rs != null){
 				rs.close();
 			}
@@ -71,7 +71,7 @@ public class JDBCUtils {
 			throw new DBException("数据库连接错误!");
 		}
 		
-		try {
+		try { // 关闭声明对象
 			if(statement != null){
 				statement.close();
 			}

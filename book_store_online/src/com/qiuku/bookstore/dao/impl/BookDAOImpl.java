@@ -32,7 +32,7 @@ public class BookDAOImpl extends BaseDAO<Book> implements BookDAO {
 		// 使用 getPageNo 方法校验 pageNo 的合法性
 		// 若查询的 pageNo 超出合法范围, 则自动重新设置
 		cb.setPageNo(page.getPageNo());
-		page.setList(getPageList(cb, 3));
+		page.setList(getPageList(cb, 4));
 		
 		return page;
 	}

@@ -13,6 +13,22 @@ public class Trade {
 	private Integer userId;
 	private Date tradeTime;
 	
+	// TODO ${trade.totalBook }
+	public int getTotalBook() {
+		int totalBook = 0;
+		for(TradeItem item: items) {
+			totalBook += item.getQuantity();
+		}
+		return totalBook;
+	}
+	// TODO ${trade.totalMoney }
+	public float getTotalMoney() {
+		float totalMoney = 0;
+		for(TradeItem item: items) {
+			totalMoney += item.getBook().getPrice();
+		}
+		return totalMoney;
+	}	
 	
 	// Trade (包含)关联的 TradeItem 集合, 非数据表属性
 	private Set<TradeItem> items = new LinkedHashSet<TradeItem>();
@@ -22,7 +38,6 @@ public class Trade {
 	public Set<TradeItem> getItems() {
 		return items;
 	}
-	
 	
 	// 属性的getter、setter方法
 	public Integer getTradeId() {

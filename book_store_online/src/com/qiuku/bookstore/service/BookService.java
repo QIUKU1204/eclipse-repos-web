@@ -66,14 +66,14 @@ public class BookService {
 	private UserDAO userDAO = new UserDAOImpl();
 	private TradeItemDAO tradeItemDAO = new TradeItemDAOImpl();
 
-	// 业务方法
+	/**
+	 * TODO 结账的具体业务流程
+	 */
 	public void cash(ShoppingCart shoppingCart, String username,
 			String accountId) {
 		
 		//1. 更新 books 数据表相关记录的 salesamount 和 storenumber
 		bookDAO.batchUpdateStoreNumberAndSalesAmount(shoppingCart.getItems());
-		
-		int i = 10 / 0;
 		
 		//2. 更新 account 数据表的 balance
 		accountDAO.updateBalance(Integer.parseInt(accountId), shoppingCart.getTotalMoney());
