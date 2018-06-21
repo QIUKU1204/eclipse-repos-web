@@ -1,6 +1,8 @@
 package com.qiuku.bookstore.service;
 
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.qiuku.bookstore.dao.BookDAO;
@@ -23,13 +25,26 @@ public class UserService {
 	public User getUser(String username){
 		return userDAO.getUser(username);
 	}
+	// 获取所有用户记录
+	public Set<User> getUsers() {
+		Set<User> userSet = userDAO.getUsers();
+		return userSet;
+	}
 	// 保存新创建的合法用户
 	public void save(User user) {
 		userDAO.save(user);
 	}
+	// 修改指定用户的密码
+	public void updatePass(User user) {
+		userDAO.updatePass(user);
+	}
 	// 统计相同用户名的记录数
 	public long getCountWithName(String username) {
 		return userDAO.getCountWithName(username);
+	}
+	// 统计相同用户名的记录数
+	public long getCountWithEmail(String email) {
+		return userDAO.getCountWithEmail(email);
 	}
 	
 	private TradeDAO tradeDAO = new TradeDAOImpl();
@@ -37,11 +52,11 @@ public class UserService {
 	private BookDAO bookDAO = new BookDAOImpl();
 	
 	/**
-	 * 返回一个 User 对象, 这个 User 对象装配了 trades 属性, 同时 trades 中的每一个 
+	 * 根据 username 返回指定的 User 对象, 这个 User 对象装配了 trades 属性, 同时 trades 中的每一个 
 	 * Trade 对象又装配了 items 属性, 而 items 中的每一个 TradeItem 对象则装配了 book 属性;
 	 */
 	public User getUserWithTrades(String username){
-		// 调用 UserDAO 的方法获取 User 对象
+		// 调用 UserDAO 的 getUser 方法获取指定 User 对象
 		User user = userDAO.getUser(username);
 		if(user == null){
 			return null;
@@ -91,7 +106,7 @@ public class UserService {
 	 * 根据 tradeId 获取对应的 Trade 对象
 	 */
 	public Trade getTrade(Integer tradeId) {
-		Trade trade = tradeDAO.geTrade(tradeId);
+		Trade trade = tradeDAO.getTrade(tradeId);
 		Set<TradeItem> tradeItemSet = tradeItemDAO.getTradeItemsWithTradeId(tradeId);
 		if(tradeItemSet != null){
 			// TODO 为 TradeItem 对象设置其 book 属性
@@ -104,5 +119,20 @@ public class UserService {
 			}
 		}
 		return trade;
+	}
+	
+	/**
+	 * 获取trades表中的所有记录
+	 */
+	public Set<Trade> getTrades() {
+		Set<Trade> tradeSet = tradeDAO.getTrades();
+		return tradeSet;
+	}
+	
+	/**
+	 * 修改指定tradeId的订单的交易状态
+	 */
+	public void updateTradeStatus(Integer tradeId, String status) {
+		tradeDAO.updateTradeStatus(tradeId, status);
 	}
 }

@@ -31,14 +31,18 @@ public class UnallowFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request2 = (HttpServletRequest)request;
 		HttpServletResponse response2 = (HttpServletResponse)response;
+		
 		request2.setCharacterEncoding("UTF-8");
 		HttpSession session = request2.getSession();
 		String username = (String) session.getAttribute("username");
+		
 		// 判断当前session中是否有username
 		if(username != null && !username.trim().equals("")){
+			// 若有则通过当前Filter
 			chain.doFilter(request2, response2);
 			return;
 		}
+		// 若没有则重定向到login.jsp
 		response2.sendRedirect(request2.getContextPath() + "/book-store/login.jsp");
 	}
 

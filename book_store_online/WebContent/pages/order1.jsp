@@ -77,14 +77,14 @@
 					<li role="presentation" class="active"><a href="index.jsp">首页</a></li>
 					<li role="presentation"><a href="userServlet?method=getTrades&username=${sessionScope.username }"
 												target="_blank">我的订单</a></li>
-					<li role="presentation"><a href="<%= request.getContextPath() %>/pages/userinfo.jsp"
+					<li role="presentation"><a href="bookServlet?method=getUserInfo"
 												target="_blank">个人中心</a></li>
 					<li role="presentation"><a href="index.jsp">友情链接</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right hidden-sm">
 					<c:if test="${sessionScope.username != null}">
 					<li role="presentation">
-						<a href="<%=request.getContextPath()%>/book-store/login.jsp" target="_blank">
+						<a href="bookServlet?method=getUserInfo" target="_blank">
 							<img alt="Brand" src="<%= request.getContextPath() %>/images/po.jpg"
 								class="img-circle" style="width: 30px; height: 30px">
 						</a>
@@ -122,23 +122,47 @@
 	            <h1 class="text-center" style="margin-bottom: 30px">
 	            <span class="glyphicon glyphicon-globe">订单详情</span></h1>
 	        </div>
-	
+			<form action="bookServlet?method=commit&type=1" class="form-inline" method="post">
 	        <div class="col-sm-12 ">
 	           <table>
 	               <tr>
-	                   <th>订单编号：</th><td>123-131-4234-1314-131</td>
+	                   <th>订单编号：</th><td>未分配</td>
 	               </tr>
 	               <tr>
 	                   <th>订单状态：</th><td>未付款</td>
 	               </tr>
 	               <tr>
-	                   <th>收货人姓名：</th><td>XXX</td>
+	                   <th>收货人：</th>
+	                   <c:if test="${requestScope.nameErr != null }">
+	                   <td><input type="text" class="form-control" name="name" style="width: 320px; 
+	                   		   height: 30px" placeholder="${requestScope.nameErr }"></td>
+	                   </c:if>
+	                   <c:if test="${requestScope.nameErr == null }">
+	                   <td><input type="text" class="form-control" name="name" style="width: 320px;
+	                           height: 30px" placeholder="请输入收货人"></td>
+	                   </c:if>
 	               </tr>
 	               <tr>
-	                   <th>收货人地址：</th><td>重庆市北碚区天生街道西南大学</td>
+	                   <th>联系电话：</th>
+	                   <c:if test="${requestScope.teleErr != null }">
+	                   <td><input type="text" class="form-control" name="telephone" style="width: 320px; 
+	                   		   height: 30px" placeholder="${requestScope.teleErr }"></td>
+	                   </c:if>
+	                   <c:if test="${requestScope.teleErr == null }">
+	                   <td><input type="text" class="form-control" name="telephone" style="width: 320px;
+	                           height: 30px" placeholder="请输入联系电话"></td>
+	                   </c:if>
 	               </tr>
 	               <tr>
-	                   <th>收货人电话：</th><td>18077648951</td>
+	                   <th>收货地址：</th>
+	                   <c:if test="${requestScope.addrErr != null }">
+	                   <td><input type="text" class="form-control" name="address" style="width: 320px; 
+	                   		   height: 30px" placeholder="${requestScope.addrErr }"></td>
+	                   </c:if>
+	                   <c:if test="${requestScope.addrErr == null }">
+	                   <td><input type="text" class="form-control" name="address" style="width: 320px;
+	                           height: 30px" placeholder="请输入收货地址"></td>
+	                   </c:if>
 	               </tr>
 	           </table>
 	        </div>
@@ -152,12 +176,12 @@
 	                </tr>
 	                
 	                <tr>
-	                    <td><a href="bookServlet?method=getBook&id=${book.id}" target="_blank">
+	                    <td><a href="bookServlet?method=getBook&id=${sessionScope.book.id}" target="_blank">
 	                			<span class="glyphicon glyphicon-book" aria-hidden="true">
-  								</span> ${book.title }</a></td>
-	                    <td><span class="text-danger">¥${book.price }</span></td>
+  								</span> ${sessionScope.book.title }</a></td>
+	                    <td><span class="text-danger">¥${sessionScope.book.price }</span></td>
 	                    <td>1</td>
-	                    <td><span class="text-danger">¥${book.price * 1 }</span></td>
+	                    <td><span class="text-danger">¥${sessionScope.book.price * 1 }</span></td>
 	                </tr>
                 	
                 </table>
@@ -169,16 +193,16 @@
 	                	<strong>商品总数: &nbsp;1</strong></div>
 	                <div class="col-sm-2 line-center" id="totalMoney">
 	                	<strong>合计: &nbsp;<span class="text-danger">
-	                		¥${book.price }</span></strong></div>
-	            	<div class="col-sm-2 line-center">
-	                	<a href="bookServlet?method=forwardPage&page=cash">
-	                		<button class="btn btn-success">提交订单</button></a>
+	                		¥${sessionScope.book.price }</span></strong></div>
+	            	<div class="col-sm-2 line-center">        
+	                	<button class="btn btn-success">提交订单</button>
 	                </div>
 	        </div>
+	        </form>
 	    </div>
 	</div>
 	
-	<br/><br/>
+	<br/><br/><br/><br/>
 	<!--footer-->
 	<div class="navbar navbar-default navbar-static-bottom bottom">
 		<br/><p class="line-center"><mark>版权声明区</mark></p>

@@ -1,6 +1,7 @@
 package com.qiuku.bookstore.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.qiuku.bookstore.domain.User;
 /**
@@ -9,7 +10,7 @@ import com.qiuku.bookstore.domain.User;
  */
 public interface UserDAO {
 	
-	public List<User> getUsers();
+	public Set<User> getUsers();
 	
 	public void save(User user);
 	
@@ -22,7 +23,9 @@ public interface UserDAO {
 	
 	public void delete(String username);
 	
-	public void update(User user);
+	public void updatePass(User user);
 	
 	public long getCountWithName(String username);
+	
+	public long getCountWithEmail(String email);
 }

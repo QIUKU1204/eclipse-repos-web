@@ -3,6 +3,7 @@ package com.qiuku.bookstore.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.qiuku.bookstore.domain.Book;
 import com.qiuku.bookstore.domain.ShoppingCart;
 
 public class BookStoreWebUtils {
@@ -22,6 +23,16 @@ public class BookStoreWebUtils {
 			session.setAttribute("ShoppingCart", sc);
 		}
 		return sc;
+	}
+	
+	public static Book getBook(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Book book = (Book) session.getAttribute("book");
+		if(book == null){
+			book = new Book();
+			session.setAttribute("book", book);
+		}
+		return book;
 	}
 	
 }

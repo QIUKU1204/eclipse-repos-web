@@ -108,9 +108,15 @@
 					var args = {"method":"addToCart","id":idVal, "time":new Date()};
 					// 4. 更新当前页面的特定内容
 					$.post(url, args, function(data){
-						var bookNumber = data.bookNumber;				
-						$(".badge").text(bookNumber);
-						alert("添加成功");
+						var bookNumber = data.bookNumber;
+						var warning = data.warning;
+						if(bookNumber != null){
+							$(".badge").text(bookNumber);
+							alert("添加成功~");
+						}
+						if(warning != null){
+							alert("请先登录！");
+						}
 					},"JSON");		
 				});
 			});		
@@ -138,14 +144,14 @@
 					<li role="presentation" class="active"><a href="index.jsp">首页</a></li>
 					<li role="presentation"><a href="userServlet?method=getTrades&username=${sessionScope.username }"
 												target="_blank">我的订单</a></li>
-					<li role="presentation"><a href="bookServlet?method=forwardPage&page=userinfo"
+					<li role="presentation"><a href="bookServlet?method=getUserInfo"
 												target="_blank">个人中心</a></li>
 					<li role="presentation"><a href="index.jsp">友情链接</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right hidden-sm">
 					<c:if test="${sessionScope.username != null}">
 					<li role="presentation">
-						<a href="<%=request.getContextPath()%>/book-store/login.jsp" target="_blank">
+						<a href="bookServlet?method=getUserInfo" target="_blank">
 							<img alt="Brand" src="<%= request.getContextPath() %>/images/po.jpg"
 								class="img-circle" style="width: 30px; height: 30px">
 						</a>
@@ -177,6 +183,7 @@
 	
 	<!--content-->
 	<div class="container" style="align:center">
+		<!-- 巨幕显示 -->
 		<div class="jumbotron" style="background-image: url('<%= request.getContextPath() %>/images/bg.jpg')">
         	<h1>当当书店</h1>
         	<p>书籍是人类进步的阶梯</p>
@@ -202,26 +209,28 @@
 					<mark>找不到你想要的商品!</mark>
 				</div>
 			</c:if>
+			<!-- 商品显示 -->
 			<c:forEach items="${bookpage.list }" var="book">
 				<div class="col-sm-4 col-md-3">
-					<div class="thumbnail">
-						<a href="bookServlet?method=getBook&id=${book.id}" target="_blank">
-							<img class="img-rounded" style="width: 100%; height: 200px; display: block;" alt="100%x200"
-							src="<%=request.getContextPath()%>/images/crawler.png">
-						</a>
-						<div class="caption center">
-							<h3><a href="bookServlet?method=getBook&id=${book.id}" target="_blank">${book.title }</a></h3>
-							<p><span>${book.author }</span><span>&nbsp;著</span></p>
-							<p><span>¥</span><span>${book.price }</span></p>
-							<p><button class="btn btn-primary btn-block" role="button" 
-								name="${book.id}" id="addToCart${book.id}">加入购物车</button>
-							</p>
-						</div>
+				<div class="thumbnail">
+					<a href="bookServlet?method=getBook&id=${book.id}" target="_blank">
+						<img class="img-rounded" style="width: 100%; height: 200px; display: block;" alt="100%x200"
+						src="<%=request.getContextPath()%>/images/crawler.png">
+					</a>
+					<div class="caption center">
+						<h3><a href="bookServlet?method=getBook&id=${book.id}" target="_blank">${book.title }</a></h3>
+						<p><span>${book.author }</span><span>&nbsp;著</span></p>
+						<p><span>¥</span><span>${book.price }</span></p>
+						<p><button class="btn btn-primary btn-block" role="button" 
+							name="${book.id}" id="addToCart${book.id}">加入购物车</button>
+						</p>
 					</div>
+				</div>
 				</div>
 			</c:forEach>
 		</div>
 		<br/>
+		<!-- 价格区间 -->
 		<div class="line-center">
 			<form class="form-inline" action="bookServlet?method=getBooks" method="post">
 				<div class="form-group">
@@ -230,12 +239,11 @@
 		  				-
 		    		<input type="text" name="maxPrice" size="3" style="height: 22px" placeholder="¥" />
 		  		</div>
-				<!-- <input type="text" size="1" name="minPrice"/> - 
-				<input type="text" size="1" name="maxPrice"/> -->
 				<button type="submit" class="btn btn-primary btn-xs" style="height: 24px">确定</button>
 			</form>
 		</div>
 		
+		<!-- 分页显示 -->
 		<nav class="center" aria-label="Page navigation">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<small>共 ${bookpage.totalPageNumber } 页</small>
@@ -253,12 +261,6 @@
 					<span aria-hidden="true">&laquo;上一页</span></a>
 				</li>
 				</c:if>
-				<%-- <c:if test="${bookpage.totalPageNumber gt 2 }">
-				<li><a href="#">1</a></li>
-	            <li><a href="#">2</a></li>
-				 ...
-	            <li><a href="#">${bookpage.totalPageNumber }</a></li>
-				</c:if> --%>
 	            <c:if test="${bookpage.hasNext }">
 	        	<li>
 					<a href="bookServlet?method=getBooks&pageNo=${bookpage.nextPage }

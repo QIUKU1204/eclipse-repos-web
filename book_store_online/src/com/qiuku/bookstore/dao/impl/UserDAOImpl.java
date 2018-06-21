@@ -1,10 +1,12 @@
 package com.qiuku.bookstore.dao.impl;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.qiuku.bookstore.dao.UserDAO;
 import com.qiuku.bookstore.dao.BaseDAO;
-
+import com.qiuku.bookstore.domain.Trade;
 import com.qiuku.bookstore.domain.User;
 
 /**
@@ -12,18 +14,23 @@ import com.qiuku.bookstore.domain.User;
  * @author:QIUKU
  */
 public class UserDAOImpl extends BaseDAO<User> implements UserDAO{
-	
+	/**
+	 * 获取 users 表中的所有用户记录
+	 * @param username
+	 * @return
+	 */
 	@Override
-	public List<User> getUsers() {
-		String sql = "SELECT userId,username,password,accountId FROM users";
-		return getForList(sql);
+	public Set<User> getUsers() {
+		String sql = "SELECT userId,username,password,email,creditCard FROM users";
+		Set<User> userSet = new LinkedHashSet<User>(getForList(sql));
+		return userSet;
 	}
 
 
 	@Override
 	public void save(User user) {
-		String sql = "INSERT INTO users(username,password) VALUES(?,?)";
-		update(sql, user.getUsername(), user.getPassword());
+		String sql = "INSERT INTO users(username,password,email,creditCard) VALUES(?,?,?,?)";
+		update(sql, user.getUsername(), user.getPassword(), user.getEmail(), user.getCreditCard());
 		
 	}
 	
@@ -34,7 +41,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO{
 	 */
 	@Override
 	public User getUser(String username) {
-		String sql = "SELECT userId,username,password FROM users WHERE username = ?";
+		String sql = "SELECT userId,username,password,email,creditCard FROM users WHERE username = ?";
 		return get(sql, username);
 	}
 
@@ -45,9 +52,9 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO{
 	}
 
 	@Override
-	public void update(User user) {
-		String sql = "UPDATE users SET username = ?, password = ? WHERE username = ?";
-		update(sql, user.getUsername(),user.getPassword(),user.getUsername());
+	public void updatePass(User user) {
+		String sql = "UPDATE users SET password = ? WHERE username = ?";
+		update(sql, user.getPassword(), user.getUsername());
 	}
 
 	
@@ -55,6 +62,13 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO{
 	public long getCountWithName(String username) {
 		String sql = "SELECT count(userId) FROM users WHERE username = ?";
 		return getForValue(sql, username);
+	}
+
+
+	@Override
+	public long getCountWithEmail(String email) {
+		String sql = "SELECT count(userId) FROM users WHERE email = ?";
+		return getForValue(sql, email);
 	}
 
 }

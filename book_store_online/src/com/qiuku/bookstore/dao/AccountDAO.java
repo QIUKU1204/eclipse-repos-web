@@ -18,4 +18,12 @@ public interface AccountDAO {
 	 */
 	public abstract void updateBalance(Integer accountId, float amount);
 
+	/**
+	 * 根据传入的增量给指定账户充值
+	 * @TODO:recharge
+	 * @return:void
+	 * @param accountId
+	 * @param increment
+	 */
+	public abstract void recharge(Integer accountId, float increment);
 }

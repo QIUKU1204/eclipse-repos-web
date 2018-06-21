@@ -49,7 +49,7 @@ public class ExitFilter implements Filter {
 			chain.doFilter(request2, response2);
 			return;
 		}
-		response2.sendRedirect(request2.getContextPath() + "/book-store/login.jsp");
+		response2.sendRedirect(request2.getContextPath() + "/index.jsp");
 	}
 
 	

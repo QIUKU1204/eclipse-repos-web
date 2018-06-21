@@ -68,6 +68,20 @@ public class Book {
 		this.remark = remark;
 	}
 	
+	/**
+	 * 有参构造器
+	 */
+	public Book(Integer id, float price, int storeNumber) {
+		super();
+		this.id = id;
+		this.price = price;
+		this.storeNumber = storeNumber;
+	}
+	
+	public Book(){
+		super();
+	}
+	
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", author=" + author + ", title=" + title

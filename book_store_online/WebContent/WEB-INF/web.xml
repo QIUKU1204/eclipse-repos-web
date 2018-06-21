@@ -22,13 +22,15 @@
     <servlet-name>bookServlet</servlet-name>
     <url-pattern>/bookServlet</url-pattern>
   </servlet-mapping>
-  <!-- InitServlet -->
-  <!-- <servlet>
-    <display-name>initServlet</display-name>
-    <servlet-name>initServlet</servlet-name>
-    <servlet-class>com.qiuku.bookstore.servlet.InitServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet> -->
+  <!-- ManageServlet -->
+  <servlet>
+    <servlet-name>manageServlet</servlet-name>
+    <servlet-class>com.qiuku.bookstore.servlet.ManageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>manageServlet</servlet-name>
+    <url-pattern>/manageServlet</url-pattern>
+  </servlet-mapping>
   <!-- EncodingFilter -->
   <filter>
     <display-name>encodingFilter</display-name>
@@ -67,7 +69,14 @@
 	<dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
   	<dispatcher>INCLUDE</dispatcher>
-  </filter-mapping> 
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>unallowFilter</filter-name>
+  	<url-pattern>/pages/order1.jsp</url-pattern>
+	<dispatcher>REQUEST</dispatcher>
+  	<dispatcher>FORWARD</dispatcher>
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>  
   <filter-mapping>
   	<filter-name>unallowFilter</filter-name>
   	<url-pattern>/pages/cash.jsp</url-pattern>
@@ -102,7 +111,7 @@
 	<dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
   	<dispatcher>INCLUDE</dispatcher>
-  </filter-mapping> 
+  </filter-mapping>
   <!-- CheckLoginFilter -->
   <filter>
   	<filter-name>checkLoginFilter</filter-name>
@@ -111,6 +120,18 @@
   <filter-mapping>
   	<filter-name>checkLoginFilter</filter-name>
   	<url-pattern>/book-store/index.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+  	<dispatcher>FORWARD</dispatcher>
+  	<dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
+  <!-- ManageFilter -->
+  <filter>
+  	<filter-name>manageFilter</filter-name>
+  	<filter-class>com.qiuku.bookstore.filter.ManageFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>manageFilter</filter-name>
+  	<url-pattern>/WEB-INF/manage/index.jsp</url-pattern>
   	<dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
   	<dispatcher>INCLUDE</dispatcher>

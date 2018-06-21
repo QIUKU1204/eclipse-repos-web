@@ -67,14 +67,14 @@
 					<li role="presentation" class="active"><a href="index.jsp">首页</a></li>
 					<li role="presentation"><a href="userServlet?method=getTrades&username=${sessionScope.username }"
 												target="_blank">我的订单</a></li>
-					<li role="presentation"><a href="<%= request.getContextPath() %>/pages/userinfo.jsp"
+					<li role="presentation"><a href="bookServlet?method=getUserInfo"
 												target="_blank">个人中心</a></li>
 					<li role="presentation"><a href="index.jsp">友情链接</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right hidden-sm">
 					<c:if test="${sessionScope.username != null}">
 					<li role="presentation">
-						<a href="<%=request.getContextPath()%>/book-store/login.jsp" target="_blank">
+						<a href="bookServlet?method=getUserInfo" target="_blank">
 							<img alt="Brand" src="<%= request.getContextPath() %>/images/po.jpg"
 								class="img-circle" style="width: 30px; height: 30px">
 						</a>
@@ -91,7 +91,7 @@
 					<li role="presentation">
 						<a href="bookServlet?method=forwardPage&page=cart" target="_blank">
 						<span class="glyphicon glyphicon-shopping-cart">购物车</span>
-						<c:if test="${sessionScope.ShoppingCart.bookNumber != null}">
+						<c:if test="${sessionScope.ShoppingCart != null}">
 							<span class="badge" id="bookNumber1"> ${sessionScope.ShoppingCart.bookNumber } </span>
 						</c:if>
 						<c:if test="${sessionScope.ShoppingCart == null}">
@@ -134,28 +134,28 @@
 	       </div>
 	
 		   
-	       <form class="login-form" action="bookServlet?method=cash" method="post">
+		   <form class="login-form" action="bookServlet?method=cash" method="post">
 	           <div class="form-group">
 	              <input type="text" class="form-control login-field" name="username"
-	              	  value="" placeholder="用户名" id="login-name" />
+	              	  value="${param.username }" placeholder="用户名" id="login-name" />
 	              <label class="login-field-icon fui-user" for="login-name"></label>
 	           </div>
 				
 			   <div class="form-group">
-	              <input type="text" class="form-control login-field" name="accountId"
-	              	  value="" placeholder="信用卡" id="login-name" />
+	              <input type="text" class="form-control login-field" name="creditCard"
+	              	  value="${param.creditCard }" placeholder="信用卡" id="login-name" />
 	              <label class="login-field-icon fui-credit-card" for="login-name"></label>
 	           </div>
 	            
 	           <div class="form-group">
 	              <input type="password" class="form-control login-field" name="password" 
-	              	  value="" placeholder="支付密码" id="login-pass" />
+	              	  placeholder="支付密码" id="login-pass" />
 	              <label class="login-field-icon fui-lock" for="login-pass"></label>
 	           </div>
 	           <button type="submit" class="btn btn-primary btn-lg btn-block">支付</button>
 	           <a class="login-link" href="bookServlet?method=forwardPage&page=cash">
 	           		Lost your password?</a>
-	        </form>
+	       </form>
 	    </div>
 	</div></div>
 	</div></div>

@@ -11,7 +11,27 @@ public class Trade {
 	// 实体类属性
 	private Integer tradeId;
 	private Integer userId;
+	private String name;
+	private String address;
+	private String telephone;
+	private String status;
 	private Date tradeTime;
+	
+	/**
+	 * 无参构造器
+	 */
+	public Trade() {
+	}
+
+	/**
+	 * 有参构造器
+	*/
+	public Trade(String name, String telephone, String address) {
+		super();
+		this.name = name;
+		this.telephone = telephone;
+		this.address = address;
+	}
 	
 	// TODO ${trade.totalBook }
 	public int getTotalBook() {
@@ -57,6 +77,31 @@ public class Trade {
 	}
 	public void setTradeTime(Date tradeTime) {
 		this.tradeTime = tradeTime;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getStatus() {
+		return status;
+	}
+	// 修改交易订单状态: 已付款 -> 已发货
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

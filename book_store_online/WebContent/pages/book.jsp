@@ -59,9 +59,15 @@
 				var args = {"method":"addToCart","id":idVal, "time":new Date()};
 				// 3. 更新当前页面的特定内容
 				$.post(url, args, function(data){
-					var bookNumber = data.bookNumber;				
-					$(".badge").text(bookNumber);
-					alert("添加成功");
+					var bookNumber = data.bookNumber;
+					var warning = data.warning;
+					if(bookNumber != null){
+						$(".badge").text(bookNumber);
+						alert("添加成功~");
+					}
+					if(warning != null){
+						alert("请先登录！");
+					}
 				},"JSON");		
 			});	
 		})
@@ -84,14 +90,14 @@
 					<li role="presentation" class="active"><a href="index.jsp">首页</a></li>
 					<li role="presentation"><a href="userServlet?method=getTrades&username=${sessionScope.username }"
 												target="_blank">我的订单</a></li>
-					<li role="presentation"><a href="<%= request.getContextPath() %>/pages/userinfo.jsp"
+					<li role="presentation"><a href="bookServlet?method=getUserInfo"
 												target="_blank">个人中心</a></li>
 					<li role="presentation"><a href="index.jsp">友情链接</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right hidden-sm">
 					<c:if test="${sessionScope.username != null}">
 					<li role="presentation">
-						<a href="<%=request.getContextPath()%>/book-store/login.jsp" target="_blank">
+						<a href="bookServlet?method=getUserInfo" target="_blank">
 							<img alt="Brand" src="<%= request.getContextPath() %>/images/po.jpg"
 								class="img-circle" style="width: 30px; height: 30px">
 						</a>
@@ -108,7 +114,7 @@
 					<li role="presentation">
 						<a href="bookServlet?method=forwardPage&page=cart" target="_blank">
 						<span class="glyphicon glyphicon-shopping-cart">购物车</span>
-						<c:if test="${sessionScope.ShoppingCart.bookNumber != null}">
+						<c:if test="${sessionScope.ShoppingCart != null}">
 							<span class="badge" id="bookNumber1"> ${sessionScope.ShoppingCart.bookNumber } </span>
 						</c:if>
 						<c:if test="${sessionScope.ShoppingCart == null}">

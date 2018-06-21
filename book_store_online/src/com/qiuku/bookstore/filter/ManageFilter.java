@@ -21,7 +21,7 @@ import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import com.qiuku.bookstore.domain.ShoppingCart;
 
-public class CheckLoginFilter implements Filter {
+public class ManageFilter implements Filter {
 
 	
 	public void destroy() {
@@ -34,44 +34,38 @@ public class CheckLoginFilter implements Filter {
 		HttpServletResponse response2 = (HttpServletResponse)response;
 		
 		request2.setCharacterEncoding("UTF-8");
-		// 若可以从request中获取请求参数username
-		// 把登录信息存储到 Cookie 中，并设置 Cookie 的最大时效为 30S
-		String username = request2.getParameter("username");
+		// 若可以从 request 中获取请求参数 manager
+		// 则把登录信息存储到 Cookie 中，并设置 Cookie 的最大时效为 900S
+		String manager = request2.getParameter("manager");
 		
-		if(username != null && !username.trim().equals("")){
-			Cookie cookie = new Cookie("username", URLEncoder.encode(username, "UTF-8"));
+		if(manager != null && !manager.trim().equals("")){
+			Cookie cookie = new Cookie("manager", URLEncoder.encode(manager, "UTF-8"));
 			cookie.setMaxAge(1800);
 			response2.addCookie(cookie);
-			HttpSession session = request2.getSession();
-			// session.setMaxInactiveInterval(1800);
-			session.setAttribute("username", username);		
-			session.setAttribute("ShoppingCart", new ShoppingCart());
-
 		}
-		// 从Cookie中读取用户信息，若存在则打印欢迎信息
-		else{
+		// 从Cookie中读取 manager
+		else{ // manager == null
 			Cookie [] cookies = request2.getCookies();
 			if(cookies != null && cookies.length > 0){
 				for(Cookie cookie : cookies){
 					String cookieName = cookie.getName();
-					if("username".equals(cookieName)){
+					if("manager".equals(cookieName)){
 						String val = cookie.getValue();
-						username = val;
+						manager = val;
 						HttpSession session = request2.getSession();
-						session.setAttribute("username", URLDecoder.decode(username, "UTF-8"));
-						session.setAttribute("ShoppingCart", new ShoppingCart());
+						session.setAttribute("manager", URLDecoder.decode(manager, "UTF-8"));
 					}
 				}
 			}			
 		}
 		
 		// 若 login，或者存在 cookie，则通过当前Filter
-		if(username != null && !username.trim().equals("")){
+		if(manager != null && !manager.trim().equals("")){
 			// pass the request along the filter chain
 			chain.doFilter(request2, response2);
 		}else{
 			// 若既没有 login，也没有 Cookie，则重定向到 login.jsp
-			response2.sendRedirect(request2.getContextPath() + "/book-store/login.jsp");
+			response2.sendRedirect(request2.getContextPath() + "/manage/login.jsp");
 			// System.out.println(request2.getContextPath() + "/book-store/login.jsp");
 		}	
 

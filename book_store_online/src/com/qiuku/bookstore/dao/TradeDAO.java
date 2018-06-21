@@ -22,5 +22,16 @@ public interface TradeDAO {
 	/**
 	 * 根据 tradeId 获取对应的 Trade 对象
 	 */
-	public abstract Trade geTrade(Integer tradeId);
+	public abstract Trade getTrade(Integer tradeId);
+	
+	
+	/**
+	 * 获取trades表中的所有记录
+	 */
+	public abstract Set<Trade> getTrades();
+	
+	/**
+	 * 在管理员后台修改订单状态
+	 */
+	public abstract void updateTradeStatus(Integer tradeId, String status);
 }

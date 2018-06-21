@@ -19,6 +19,11 @@
 		})
 	</script>
     <style>
+    	.center{ 
+            display: table;
+			margin-left: auto;
+  			margin-right: auto;
+        }
         html,body {
             font-family: 'Microsoft YaHei', sans-serif;
             font-weight: 100;
@@ -145,43 +150,63 @@
 	  }
 </script>
 
-<div class="container" style="position: absolute;left: 300px; right: 300px; top: 80px">
-	    <div class="row" style="margin-left: 200px; padding-left: 200px; margin-right: 200px; padding-right: 200px">
-		    <div class="col-md-12" style="text-align: center; padding: 25px; 
+<!-- 需要设置 container 容器相对于父元素 canvas 的绝对位置, 
+	  否则内容无法显示于 canvas 之上 -->
+<!-- 同时需要给 container 设置 .center 样式，否则整个div块
+	 会在缩小浏览器窗口时被挤压变形 -->
+<div class="container center" style="position: absolute; left: 0px; right: 0px; 
+	top: 80px; bottom: 0px">
+
+	<div class="row" style="margin-left: 200px; padding-left: 200px; 
+		margin-right: 200px; padding-right: 200px">
+
+		<div class="col-sm-12" style="text-align: center; padding: 25px; 
 		    	background-image: url('<%= request.getContextPath() %>/book-store/bg.jpg')">
-				
-		    	<form action="<%= request.getContextPath() %>/userServlet?method=login" method="post">
-		    	    <div class="page-header" style="margin-top: 10px">
-	    				<h3><font color="#FF9797">当当书店</font><br/>
-	    				<small style="color: #FFBB77">书籍是人类进步的阶梯</small></h3>
-					</div>
-  					<h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户登录</h5><br/>
-		    		<div class="input-group">
-		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-		    			<input type="text" name="username" class="form-control" placeholder="输入用户名" value="${param.username}" aria-describedby="sizing-addon2">		
-		    		</div>
-		    		<span id="usernameErr" style="color:red">${requestScope.message1}</span><br>
-		    		
-		    		<div class="input-group">
-		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-		    			<input type="password" name="password" class="form-control" placeholder="输入密码" value="${param.password}" aria-describedby="sizing-addon2">
-		    		</div>
-		    		<span id="passwordErr" style="color:red">${requestScope.message2}</span><br>
-		    		
-		    		<div class="input-group">
-		    			<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></span>
-		    			<input type="text" name="CHECK_CODE_PARAM_NAME" class="form-control" placeholder="输入验证码" value="${param.CHECK_CODE_PARAM_NAME}" aria-describedby="sizing-addon2">		
-		    		</div>
-		    		<span id="checkcodeErr" style="color:red">${requestScope.message3}</span><br>
-		    		
-		    		<button type="submit" class="btn btn-primary" style="width: 289px">登录</button><br/><br/>
-		        	<!-- 生成验证码图片 -->
-		    		<a href="#" class="thumbnail">
-		    		    <img alt="" src="<%= request.getContextPath() %>/validateColorServlet"></a>
-		    		<span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> 没有账号? <a href="<%= request.getContextPath() %>/book-store/signup.jsp">去注册</a>
-		        </form>
+		    	
+			<div class="page-header" style="margin-top: 10px">
+	    		<h3><font color="#F75000">当当书店</font><br/>
+	    			<small style="color: #6FB7B7">书籍是人类进步的阶梯</small></h3>
+			</div>
+			<h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>用户登录</h5><br/>	
+			<form action="<%= request.getContextPath() %>/userServlet?method=login" method="post">
+  				<!-- username -->
+  				<div class="input-group">
+		    		<span class="input-group-addon" >
+						<span class="glyphicon glyphicon-user" aria-hidden="true">
+					</span></span>
+					<input type="text" class="form-control" placeholder="请输入用户名" 
+						name="username" value="${param.username}" aria-describedby="sizing-addon1">		
+		    	</div>
+		    	<span id="usernameErr" style="color:red">${requestScope.usernameErr}</span><br>
+		    	<!-- password -->	
+		    	<div class="input-group">
+		    		<span class="input-group-addon" >
+		    			<span class="glyphicon glyphicon-lock" aria-hidden="true">
+		    		</span></span>
+		    		<input type="password" class="form-control" placeholder="请输入密码" 
+		    			name="password" value="${param.password}" aria-describedby="sizing-addon2">
+		    	</div>
+		    	<span id="passwordErr" style="color:red">${requestScope.passwordErr}</span><br>
+		    	<!-- checkCode -->	
+		    	<div class="input-group">
+		    		<span class="input-group-addon" >
+		    			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">
+		    		</span></span>
+		    		<input type="text" class="form-control" placeholder="请输入验证码(区分大小写)" 
+		    			name="CHECK_CODE_PARAM_NAME" value="${param.CHECK_CODE_PARAM_NAME}" aria-describedby="sizing-addon3">		
+		    	</div>
+		    	<span id="checkcodeErr" style="color:red">${requestScope.checkcodeErr}</span><br>
+		    	<!-- 登录 -->
+		    	<button type="submit" class="btn btn-primary" style="width: 289px">登录</button><br/><br/>
+		        
+		        <!-- 生成验证码图片 -->
+		    	<a href="#" class="thumbnail">
+		        	<img alt="" src="<%= request.getContextPath() %>/validateColorServlet"></a>
+		    	<span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> 
+		    		没有账号? <a href="<%= request.getContextPath() %>/book-store/signup.jsp">去注册</a>
+		    </form>
 		  
-	    	</div> 
+	    </div> 
 
 	</div></div>
 	

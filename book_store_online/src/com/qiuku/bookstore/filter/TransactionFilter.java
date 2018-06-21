@@ -67,7 +67,7 @@ public class TransactionFilter implements Filter {
 				e1.printStackTrace();
 			}
 			// 7. 并重定向到错误页面
-			HttpServletResponse resp = (HttpServletResponse) response;
+			// HttpServletResponse resp = (HttpServletResponse) response;
 			HttpServletRequest req = (HttpServletRequest) request;
 			req.getRequestDispatcher("/WEB-INF/error_404.jsp").forward(request, response);
 			

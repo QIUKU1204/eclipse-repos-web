@@ -77,14 +77,14 @@
 					<li role="presentation" class="active"><a href="index.jsp">首页</a></li>
 					<li role="presentation"><a href="userServlet?method=getTrades&username=${sessionScope.username }"
 												target="_blank">我的订单</a></li>
-					<li role="presentation"><a href="<%= request.getContextPath() %>/pages/userinfo.jsp"
+					<li role="presentation"><a href="bookServlet?method=getUserInfo"
 												target="_blank">个人中心</a></li>
 					<li role="presentation"><a href="index.jsp">友情链接</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right hidden-sm">
 					<c:if test="${sessionScope.username != null}">
 					<li role="presentation">
-						<a href="<%=request.getContextPath()%>/book-store/login.jsp" target="_blank">
+						<a href="bookServlet?method=getUserInfo" target="_blank">
 							<img alt="Brand" src="<%= request.getContextPath() %>/images/po.jpg"
 								class="img-circle" style="width: 30px; height: 30px">
 						</a>
@@ -101,7 +101,7 @@
 					<li role="presentation">
 						<a href="bookServlet?method=forwardPage&page=cart" target="_blank">
 						<span class="glyphicon glyphicon-shopping-cart">购物车</span>
-						<c:if test="${sessionScope.ShoppingCart.bookNumber != null}">
+						<c:if test="${sessionScope.ShoppingCart != null}">
 							<span class="badge" id="bookNumber1"> ${sessionScope.ShoppingCart.bookNumber } </span>
 						</c:if>
 						<c:if test="${sessionScope.ShoppingCart == null}">
@@ -129,16 +129,16 @@
 	                   <th>订单编号：</th><td>${trade.tradeId }</td>
 	               </tr>
 	               <tr>
-	                   <th>订单状态：</th><td>已付款</td>
+	                   <th>订单状态：</th><td>${trade.status }</td>
 	               </tr>
 	               <tr>
-	                   <th>收货人姓名：</th><td>XXX</td>
+	                   <th>收货人姓名：</th><td>${trade.name }</td>
 	               </tr>
 	               <tr>
-	                   <th>收货人地址：</th><td>重庆市北碚区天生街道西南大学</td>
+	                   <th>收货人地址：</th><td>${trade.address }</td>
 	               </tr>
 	               <tr>
-	                   <th>收货人电话：</th><td>18077648951</td>
+	                   <th>收货人电话：</th><td>${trade.telephone }</td>
 	               </tr>
 	           </table>
 	        </div>

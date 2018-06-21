@@ -19,4 +19,10 @@ public class AccountDAOIml extends BaseDAO<Account> implements AccountDAO {
 		update(sql, amount, accountId); 
 	}
 
+	@Override
+	public void recharge(Integer accountId, float increment) {
+		String sql = "UPDATE accounts SET balance = balance + ? WHERE accountId = ?";
+		update(sql, increment, accountId); 
+	}
+
 }

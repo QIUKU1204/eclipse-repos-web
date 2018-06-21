@@ -13,4 +13,7 @@ public class AccountService {
 		return accountDAO.getAccount(accountId);
 	}
 	
+	public void recharge(int accountId, float increment) {
+		accountDAO.recharge(accountId, increment);
+	}
 }

@@ -14,6 +14,8 @@ public class User {
 	private int userId;
 	private String username;
 	private String password;
+	private String email;
+	private String creditCard;
 	
 	
 	// 与 User 对象关联的 Trade 集合
@@ -24,8 +26,16 @@ public class User {
 	public Set<Trade> getTrades() {
 		return trades;
 	}
+	// 与 User 对象关联的 Account 对象
+	private Account account = new Account();
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+	public Account getAccount() {
+		return account;
+	}
 	
-	
+	// 实体类属性的getter、setter方法
 	public int getUserId() {
 		return userId;
 	}
@@ -46,13 +56,27 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getCreditCard() {
+		return creditCard;
+	}
+	public void setCreditCard(String creditCard) {
+		this.creditCard = creditCard;
+	}
+	
 	
 	// 构造方法
-	public User(String username, String password) {
+	public User(String username, String password, String email, String creditCard) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.email = email;
+		this.creditCard = creditCard;
 	}
 	public User() {}
 	

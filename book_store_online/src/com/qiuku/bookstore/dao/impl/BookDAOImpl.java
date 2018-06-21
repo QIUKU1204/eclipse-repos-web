@@ -63,6 +63,12 @@ public class BookDAOImpl extends BaseDAO<Book> implements BookDAO {
 		String sql = "SELECT storeNumber FROM books WHERE id = ?";
 		return getForValue(sql, id);
 	}
+	
+	@Override
+	public void updateBook(Book book) {
+		String sql = "UPDATE books SET price = ?, storeNumber = ? WHERE id = ?";
+		update(sql, book.getPrice(), book.getStoreNumber(), book.getId());
+	}
 
 	@Override
 	public void batchUpdateStoreNumberAndSalesAmount(

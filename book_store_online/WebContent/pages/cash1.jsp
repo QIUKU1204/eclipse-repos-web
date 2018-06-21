@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>我的交易记录</title>
+	<title>支付确认</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,600" />
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="https://cdn.bootcss.com/flat-ui/2.3.0/css/flat-ui.min.css"/>
@@ -17,9 +17,8 @@
     <%-- <%@ include file="/commons/queryCondition.jsp" %> --%>
 	<style>
 		.row{
-            margin-left: 20px;
-            margin-right: 20px;
-        }
+			margin-top: 20px;;
+		}
 		.center{
 			text-align: center;
 		}
@@ -32,30 +31,27 @@
             bottom:0;
             width: 100%;
 		}
-		.row input{
-            width: 50px;
-        }
-        .list-group-item:hover{
-            background: #27ae60;
-        }
-        .list-group-item div:first-child:hover{
-            cursor: pointer;
-        }
+		.pagination{
+			background: #16A085;
+		}
+		html, body {
+			font-family: 'Microsoft YaHei', sans-serif;
+			font-weight: 100;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			color: #333;
+		}
+		h1, h2, h3, h4, h5, h6 {
+			font-weight: 100;
+			align-content: center;
+			margin: 0 !important;
+		}
 	</style>
-	<script>
-        function myClick(n){
-        }
-        function btnClick(){
-            alert("btn");
-            return false;
-        }
-        $(function(){
-
-        })
-    </script>
 </head>
 <body>
-
+	
 	<!-- Static navbar -->
 	<div class="navbar navbar-default navbar-static-top" role="navigation">
 		<div class="container">
@@ -108,49 +104,62 @@
 		</div><!-- container -->
 	</div>
 	
-	
-	<!--content-->
+		
 	<div class="container">
-	    <div class="row thumbnail center">
-	        <div class="col-sm-12">
-	            <h1 class="text-center" style="margin-bottom: 30px">
-	            <span class="glyphicon glyphicon-folder-close">我的订单</span></h1>
-	        </div>
-	        <div class="col-sm-12 thumbnail">
-	            <div class="col-sm-1 line-center">订单号</div>
-	            <div class="col-sm-2 line-center">支付时间</div>
-	            <div class="col-sm-2 line-center">订单状态</div>
-	            <div class="col-sm-2 line-center">商品数量 </div>
-	            <div class="col-sm-2 line-center">订单总价</div>
-	            <div class="col-sm-3 line-center">操作</div>
-	        </div>
-	        <div class="list-group">
-	        <c:if test="${empty user.trades }">
-					<div class="col-sm-12  list-group-item">
-						<div class="col-sm-12 line-center">
-							没有符合的订单哦~快去首页选购下单吧!
-						</div>
-					</div>
-			</c:if>
-	        <c:forEach items="${user.trades }" var="trade">
-	            <div class="col-sm-12  list-group-item" >
-	                <div class="col-sm-1 line-center" onclick="myClick(1)">
-	                	<a href="userServlet?method=getTrade&tradeId=${trade.tradeId }" 
-	                		target="_blank">${trade.tradeId }</a></div>
-	                <div class="col-sm-2 line-center">${trade.tradeTime }</div>
-	                <div class="col-sm-2 line-center">${trade.status }</div>
-	                <div class="col-sm-2 line-center">${trade.totalBook } </div>
-	                <div class="col-sm-2 line-center"><strong>¥${trade.totalMoney }</strong></div>
-	                <div class="col-sm-3 line-center">
-	                    <button class="btn btn-danger">删除订单</button>
-	                </div>
-	            </div>
-	        </c:forEach>
-	    	</div>
-		</div>
+	<div class="row">
+	<div class="col-sm-2 line-center" style="padding-right: 0px; padding-left: 0px">
+		<div class="tile tile-hot">
+            <img src="<%=request.getContextPath()%>/images/ribbon.svg" alt="ribbon" class="tile-hot-ribbon">
+            <img src="<%=request.getContextPath()%>/images/chat.svg" alt="Chat" class="tile-image">
+            <h3 class="tile-title">合计: <span class="text-danger">
+	                ¥${ sessionScope.book.price * 1}</span></h3>
+	         &nbsp;&nbsp;&nbsp;&nbsp;
+            <p>您一共购买了 1 本书籍</p>
+         
+            <p><a href="bookServlet?method=getBook&id=${sessionScope.book.id}" target="_blank">
+	            <span class="glyphicon glyphicon-book" aria-hidden="true">
+	            </span> ${sessionScope.book.title }</a> &nbsp; × 1</p>
+        	
+        </div>
 	</div>
+	<div class="col-sm-10" style="padding-right: 115px; padding-left: 115px">
+	<div class="login" style="width: 940px">
+	    <div class="login-screen" style="padding-top: 90px" >
+	       <div class="login-icon">
+	           <img src="<%=request.getContextPath()%>/images/icon.png" alt="Welcome to Mail App" />
+	           <h4>Welcome to <small>Pay Page</small></h4>
+	           <c:if test="${requestScope.errors != null }">
+			   <span id="ErrInfo" style="text-align: center; color: red"><small>${requestScope.errors }</small></span>
+			   </c:if>
+	       </div>
 	
-	<br/><br/>
+		   
+		   <form class="login-form" action="bookServlet?method=cash" method="post">
+	           <div class="form-group">
+	              <input type="text" class="form-control login-field" name="username"
+	              	  value="" placeholder="用户名" id="login-name" />
+	              <label class="login-field-icon fui-user" for="login-name"></label>
+	           </div>
+				
+			   <div class="form-group">
+	              <input type="text" class="form-control login-field" name="accountId"
+	              	  value="" placeholder="信用卡" id="login-name" />
+	              <label class="login-field-icon fui-credit-card" for="login-name"></label>
+	           </div>
+	            
+	           <div class="form-group">
+	              <input type="password" class="form-control login-field" name="password" 
+	              	  value="" placeholder="支付密码" id="login-pass" />
+	              <label class="login-field-icon fui-lock" for="login-pass"></label>
+	           </div>
+	           <button type="submit" class="btn btn-primary btn-lg btn-block">支付</button>
+	           <a class="login-link" href="bookServlet?method=forwardPage&page=cash">
+	           		Lost your password?</a>
+	       </form>
+	    </div>
+	</div></div>
+	</div></div>
+	<br/>
 	<!--footer-->
 	<div class="navbar navbar-default navbar-static-bottom bottom">
 		<br/><p class="line-center"><mark>版权声明区</mark></p>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <c3p0-config>
 
-  <named-config name="mvcapp"> 
+  <named-config name="book-store"> 
     <property name="user">root</property>
     <!-- 120401是本地mysql的密码，root是aliyun服务器上mysql的密码 -->
-    <property name="password">120401</property>
+    <property name="password">root</property>
     <property name="driverClass">com.mysql.jdbc.Driver</property>
     <property name="jdbcUrl">jdbc:mysql://localhost:3306/book-store?characterEncoding=utf8</property>
     
-    <property name="acquireIncrement">5</property>
-    <property name="initialPoolSize">10</property>
-    <property name="minPoolSize">10</property>
-    <property name="maxPoolSize">50</property>
+    <property name="acquireIncrement">10</property>
+    <property name="initialPoolSize">20</property>
+    <property name="minPoolSize">20</property>
+    <property name="maxPoolSize">100</property>
 
     <!-- intergalactoApp adopts a different approach to configuring statement caching -->
     <property name="maxStatements">20</property> 

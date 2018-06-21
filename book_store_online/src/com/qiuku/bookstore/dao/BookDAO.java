@@ -7,6 +7,7 @@ import com.qiuku.bookstore.domain.Book;
 import com.qiuku.bookstore.domain.ShoppingCartItem;
 import com.qiuku.bookstore.web.CriteriaBook;
 import com.qiuku.bookstore.web.Page;
+import com.sun.xml.internal.org.jvnet.fastinfoset.VocabularyApplicationData;
 /**
  * @TODO: BookDAO 接口定义了用于操作 Book 实体类的基本方法
  * @author:QIUKU
@@ -49,6 +50,11 @@ public interface BookDAO {
 	 * @return
 	 */
 	public abstract int getStoreNumber(Integer id);
+	
+	/**
+	 * 根据请求参数修改指定 id 图书的 price 和 storeNumber
+	 */
+	public abstract void updateBook(Book book);
 
 	/**
 	 * 根据传入的 ShoppingCartItem 的集合, 
