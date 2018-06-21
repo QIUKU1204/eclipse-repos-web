@@ -7,7 +7,7 @@
 		<property name="src.dir" value="./src" />
 		<property name="web.dir" value="./WebContent" />
 		<property name="build.dir" value="./build" />
-		<property name="dist.dir" value="./war" />
+		<property name="dist.dir" value="./dist" />
 		<property name="page.dir" value="./WebContent" />
 		<property name="lib.dir" value="${web.dir}/WEB-INF/lib" />
 	</target>
