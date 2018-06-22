@@ -29,7 +29,7 @@ public class JDBCUtils {
 		 * java.sql.SQLException: Connections could not be acquired from the underlying database!
 		 * java.sql.SQLException: No suitable driver
 		 */
-		dataSource = new ComboPooledDataSource("book-store");
+		dataSource = new ComboPooledDataSource("MyDB");
 	}
 	
 	/**

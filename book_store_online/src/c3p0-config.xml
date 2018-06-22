@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <c3p0-config>
 
-  <named-config name="book-store"> 
+  <named-config name="MyDB"> 
     <property name="user">root</property>
     <!-- 120401是本地mysql的密码，root是aliyun服务器上mysql的密码 -->
-    <property name="password">root</property>
+    <property name="password">120401</property>
     <property name="driverClass">com.mysql.jdbc.Driver</property>
     <property name="jdbcUrl">jdbc:mysql://localhost:3306/book-store?characterEncoding=utf8</property>
     

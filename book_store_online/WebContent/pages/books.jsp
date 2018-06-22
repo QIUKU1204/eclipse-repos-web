@@ -94,7 +94,7 @@
 	</script>
 	<script type="text/javascript">
 		$(function(){
-			// Ajax 添加商品
+			// Ajax 添加图书到购物车
 			// 1. 在所有的 button 上做停留
 			$("button").each(function(){
 				var bookId = $.trim(this.name);
